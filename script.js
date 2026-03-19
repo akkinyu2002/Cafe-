@@ -129,6 +129,7 @@ const zoneWrap = document.getElementById("zoneWrap");
 const deliveryZone = document.getElementById("deliveryZone");
 const tableWrap = document.getElementById("tableWrap");
 const siteHeader = document.querySelector(".site-header");
+const navLinks = [...document.querySelectorAll(".main-nav a")];
 
 function formatINR(value) {
   return `Rs ${value.toLocaleString("en-IN")}`;
@@ -633,6 +634,37 @@ function bindHeaderState() {
   window.addEventListener("scroll", updateHeader, { passive: true });
 }
 
+function bindNavHighlight() {
+  const sectionMap = navLinks
+    .map((link) => {
+      const href = link.getAttribute("href");
+      if (!href || !href.startsWith("#")) {
+        return null;
+      }
+      return { link, section: document.querySelector(href) };
+    })
+    .filter((entry) => entry && entry.section);
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        sectionMap.forEach((item) => item.link.classList.remove("active"));
+        const match = sectionMap.find((item) => item.section === entry.target);
+        if (match) {
+          match.link.classList.add("active");
+        }
+      });
+    },
+    { threshold: 0.35 }
+  );
+
+  sectionMap.forEach((item) => observer.observe(item.section));
+}
+
 function bindSearch() {
   menuSearch.addEventListener("input", () => {
     state.query = menuSearch.value;
@@ -697,6 +729,7 @@ function init() {
   bindBookingForm();
   bindTopLevelActions();
   bindHeaderState();
+  bindNavHighlight();
   bindSearch();
   bindSort();
   bindKeyboardShortcuts();
