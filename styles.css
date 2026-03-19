@@ -69,6 +69,12 @@ svg {
   backdrop-filter: blur(14px);
   background: rgba(20, 10, 7, 0.78);
   border-bottom: 1px solid rgba(255, 220, 186, 0.1);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.site-header.scrolled {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  border-bottom-color: rgba(255, 220, 186, 0.25);
 }
 
 .nav-wrap {

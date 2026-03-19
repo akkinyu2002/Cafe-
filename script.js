@@ -124,6 +124,7 @@ const checkoutForm = document.getElementById("checkoutForm");
 const orderType = document.getElementById("orderType");
 const addressWrap = document.getElementById("addressWrap");
 const tableWrap = document.getElementById("tableWrap");
+const siteHeader = document.querySelector(".site-header");
 
 function formatINR(value) {
   return `Rs ${value.toLocaleString("en-IN")}`;
@@ -548,6 +549,19 @@ function bindTopLevelActions() {
   });
 }
 
+function bindHeaderState() {
+  const updateHeader = () => {
+    if (window.scrollY > 8) {
+      siteHeader.classList.add("scrolled");
+    } else {
+      siteHeader.classList.remove("scrolled");
+    }
+  };
+
+  updateHeader();
+  window.addEventListener("scroll", updateHeader, { passive: true });
+}
+
 function bindSearch() {
   menuSearch.addEventListener("input", () => {
     state.query = menuSearch.value;
@@ -611,6 +625,7 @@ function init() {
   bindSpecialCombos();
   bindBookingForm();
   bindTopLevelActions();
+  bindHeaderState();
   bindSearch();
   bindSort();
   bindKeyboardShortcuts();
