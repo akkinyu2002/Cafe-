@@ -298,6 +298,7 @@
       <div><span>Subtotal</span><strong id="subtotal">Rs 0</strong></div>
       <div><span>GST (5%)</span><strong id="gst">Rs 0</strong></div>
       <div><span>Service (8%)</span><strong id="service">Rs 0</strong></div>
+      <div><span>Delivery Fee</span><strong id="deliveryFee">Rs 0</strong></div>
       <div class="grand"><span>Total</span><strong id="total">Rs 0</strong></div>
     </div>
 
@@ -322,6 +323,15 @@
       <label id="addressWrap">
         Delivery Address
         <textarea name="address" rows="2" placeholder="House no, area, landmark"></textarea>
+      </label>
+      <label id="zoneWrap">
+        Delivery Zone
+        <select name="deliveryZone" id="deliveryZone">
+          <option value="">Select zone</option>
+          <option value="core">Banjara Hills / Jubilee Hills</option>
+          <option value="extended">Gachibowli / Hitech City</option>
+          <option value="outer">Secunderabad / Outer Areas</option>
+        </select>
       </label>
       <label id="tableWrap" class="hidden">
         Table Preference

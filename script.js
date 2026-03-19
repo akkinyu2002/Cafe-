@@ -112,6 +112,7 @@ const cartCountEl = document.getElementById("cartCount");
 const subtotalEl = document.getElementById("subtotal");
 const gstEl = document.getElementById("gst");
 const serviceEl = document.getElementById("service");
+const deliveryFeeEl = document.getElementById("deliveryFee");
 const totalEl = document.getElementById("total");
 const cartDrawer = document.getElementById("cartDrawer");
 const overlay = document.getElementById("overlay");
@@ -123,6 +124,8 @@ const categoryFilters = document.getElementById("categoryFilters");
 const checkoutForm = document.getElementById("checkoutForm");
 const orderType = document.getElementById("orderType");
 const addressWrap = document.getElementById("addressWrap");
+const zoneWrap = document.getElementById("zoneWrap");
+const deliveryZone = document.getElementById("deliveryZone");
 const tableWrap = document.getElementById("tableWrap");
 const siteHeader = document.querySelector(".site-header");
 
@@ -148,6 +151,24 @@ function getFlavorTag(item) {
     return "Sweet";
   }
   return "Bold Roast";
+}
+
+function getDeliveryFee() {
+  if (orderType.value !== "delivery") {
+    return 0;
+  }
+
+  const zone = deliveryZone.value;
+  if (zone === "core") {
+    return 40;
+  }
+  if (zone === "extended") {
+    return 70;
+  }
+  if (zone === "outer") {
+    return 110;
+  }
+  return 0;
 }
 
 function showToast(message) {
@@ -279,7 +300,8 @@ function renderCart() {
   const subtotal = Object.values(state.cart).reduce((sum, item) => sum + item.price * item.qty, 0);
   const gst = Math.round(subtotal * 0.05);
   const service = Math.round(subtotal * 0.08);
-  const total = subtotal + gst + service;
+  const deliveryFee = getDeliveryFee();
+  const total = subtotal + gst + service + deliveryFee;
 
   cartItemsEl.innerHTML = buildCartRows();
   cartCountEl.textContent = String(getCartItemCount());
@@ -287,6 +309,7 @@ function renderCart() {
   subtotalEl.textContent = formatINR(subtotal);
   gstEl.textContent = formatINR(gst);
   serviceEl.textContent = formatINR(service);
+  deliveryFeeEl.textContent = formatINR(deliveryFee);
   totalEl.textContent = formatINR(total);
 }
 
@@ -351,21 +374,32 @@ function setOrderTypeUI() {
 
   if (selected === "delivery") {
     addressWrap.classList.remove("hidden");
+    zoneWrap.classList.remove("hidden");
     tableWrap.classList.add("hidden");
     addressWrap.querySelector("textarea").setAttribute("required", "required");
+    deliveryZone.setAttribute("required", "required");
+    renderCart();
     return;
   }
 
   if (selected === "dinein") {
     tableWrap.classList.remove("hidden");
     addressWrap.classList.add("hidden");
+    zoneWrap.classList.add("hidden");
     addressWrap.querySelector("textarea").removeAttribute("required");
+    deliveryZone.removeAttribute("required");
+    deliveryZone.value = "";
+    renderCart();
     return;
   }
 
   addressWrap.classList.add("hidden");
+  zoneWrap.classList.add("hidden");
   tableWrap.classList.add("hidden");
   addressWrap.querySelector("textarea").removeAttribute("required");
+  deliveryZone.removeAttribute("required");
+  deliveryZone.value = "";
+  renderCart();
 }
 
 function generateOrderId() {
@@ -390,7 +424,19 @@ function handlePlaceOrder(event) {
     return;
   }
 
-  const eta = selectedType === "delivery" ? "35-45 mins" : selectedType === "pickup" ? "20-25 mins" : "Ready in 15 mins";
+  if (selectedType === "delivery" && !String(formData.get("deliveryZone")).trim()) {
+    showToast("Please select a delivery zone");
+    return;
+  }
+
+  let eta = "Ready in 15 mins";
+  if (selectedType === "pickup") {
+    eta = "20-25 mins";
+  }
+  if (selectedType === "delivery") {
+    const zone = String(formData.get("deliveryZone"));
+    eta = zone === "outer" ? "45-60 mins" : zone === "extended" ? "40-50 mins" : "30-40 mins";
+  }
   const orderId = generateOrderId();
   const customerName = String(formData.get("customerName"));
 
@@ -643,6 +689,7 @@ function init() {
   initReveal();
 
   orderType.addEventListener("change", setOrderTypeUI);
+  deliveryZone.addEventListener("change", renderCart);
   checkoutForm.addEventListener("submit", handlePlaceOrder);
 }
 
