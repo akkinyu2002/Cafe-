@@ -447,7 +447,34 @@ p {
 .search-wrap {
   flex: 1;
   min-width: 230px;
-  max-width: 320px;
+  max-width: 330px;
+}
+
+.sort-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f0d6b4;
+  border: 1px solid rgba(255, 220, 186, 0.18);
+  border-radius: 999px;
+  padding: 0.35rem 0.6rem;
+  background: rgba(0, 0, 0, 0.24);
+}
+
+.sort-wrap span {
+  font-size: 0.82rem;
+}
+
+.sort-wrap select {
+  border: none;
+  background: transparent;
+  color: #f7e8d2;
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.sort-wrap select:focus {
+  outline: none;
 }
 
 .search-wrap input {

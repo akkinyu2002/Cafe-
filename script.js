@@ -100,6 +100,7 @@
 const state = {
   category: "all",
   query: "",
+  sort: "popular",
   cart: {}
 };
 
@@ -115,6 +116,7 @@ const overlay = document.getElementById("overlay");
 const toast = document.getElementById("toast");
 const orderStatus = document.getElementById("orderStatus");
 const menuSearch = document.getElementById("menuSearch");
+const menuSort = document.getElementById("menuSort");
 const categoryFilters = document.getElementById("categoryFilters");
 const checkoutForm = document.getElementById("checkoutForm");
 const orderType = document.getElementById("orderType");
@@ -134,7 +136,7 @@ function showToast(message) {
 }
 
 function getFilteredMenu() {
-  return menuItems.filter((item) => {
+  const filtered = menuItems.filter((item) => {
     const categoryMatch = state.category === "all" || item.category === state.category;
     const queryMatch =
       state.query.trim() === "" ||
@@ -142,6 +144,18 @@ function getFilteredMenu() {
       item.desc.toLowerCase().includes(state.query.toLowerCase());
     return categoryMatch && queryMatch;
   });
+
+  const sorted = [...filtered];
+
+  if (state.sort === "price-low") {
+    sorted.sort((a, b) => a.price - b.price);
+  } else if (state.sort === "price-high") {
+    sorted.sort((a, b) => b.price - a.price);
+  } else if (state.sort === "rating-high") {
+    sorted.sort((a, b) => b.rating - a.rating);
+  }
+
+  return sorted;
 }
 
 function renderMenu() {
@@ -491,6 +505,13 @@ function bindSearch() {
   });
 }
 
+function bindSort() {
+  menuSort.addEventListener("change", () => {
+    state.sort = menuSort.value;
+    renderMenu();
+  });
+}
+
 function initReveal() {
   const observer = new IntersectionObserver(
     (entries) => {
@@ -519,6 +540,7 @@ function init() {
   bindBookingForm();
   bindTopLevelActions();
   bindSearch();
+  bindSort();
   initReveal();
 
   orderType.addEventListener("change", setOrderTypeUI);
