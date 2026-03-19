@@ -1,0 +1,652 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanigiri Cafe & Restaurant</title>
+  <meta name="description" content="Kanigiri Cafe & Restaurant serves authentic Hyderabadi biryani, kebabs, curries, drinks, and desserts with online checkout.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a href="#" class="brand" aria-label="Kanigiri Home">
+      <span class="brand-mark">
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span class="brand-text-wrap">
+        <strong class="brand-text">KANIGIRI</strong>
+        <span class="brand-subtext">Taste of Hyderabad</span>
+      </span>
+    </a>
+
+    <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primaryNav">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <nav class="top-actions" id="primaryNav">
+      <a href="#fullMenu" class="nav-mini-link">Menu</a>
+      <a href="#drinks" class="nav-mini-link">Drinks</a>
+      <a href="#specials" class="nav-mini-link">Specials</a>
+      <a href="#checkout" class="nav-mini-link">Checkout</a>
+      <a href="tel:+919000790007" class="call-chip">
+        <i class="fa-solid fa-phone-volume" aria-hidden="true"></i>
+        <span>Call: +91 90007 90007</span>
+      </a>
+      <a href="#fullMenu" class="login-btn goto-menu">Place Order</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero reveal-on-load">
+      <div class="hero-media">
+        <div class="hero-spice spice-1"></div>
+        <div class="hero-spice spice-2"></div>
+        <div class="hero-spice spice-3"></div>
+
+        <article class="hero-plate-card">
+          <img src="https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Freshly served mutton biryani in a black tray" loading="eager">
+        </article>
+
+        <figure class="hero-thumb thumb-1">
+          <img src="https://images.pexels.com/photos/9609838/pexels-photo-9609838.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Spicy grilled chicken close-up" loading="lazy">
+        </figure>
+        <figure class="hero-thumb thumb-2">
+          <img src="https://images.pexels.com/photos/9609859/pexels-photo-9609859.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Creamy paneer curry bowl" loading="lazy">
+        </figure>
+        <figure class="hero-thumb thumb-3">
+          <img src="https://images.pexels.com/photos/7394819/pexels-photo-7394819.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Charred tandoori seafood platter" loading="lazy">
+        </figure>
+
+        <img class="sauce-bowl bowl-1" src="https://images.pexels.com/photos/5638268/pexels-photo-5638268.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mint yogurt dip in bowl" loading="lazy">
+        <img class="sauce-bowl bowl-2" src="https://images.pexels.com/photos/5946608/pexels-photo-5946608.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tamarind chutney in bowl" loading="lazy">
+      </div>
+
+      <div class="hero-content">
+        <span class="price-tag">Price <strong>Rs 360</strong> <small>Rs 410</small></span>
+        <h1><span>Mutton</span> Biryani</h1>
+
+        <div class="rating">
+          <div class="stars" aria-label="Rated 4.5 out of 5">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star-half-stroke"></i>
+          </div>
+          <strong>4.5</strong>
+          <span>521 Reviews</span>
+        </div>
+
+        <p>
+          Aromatic, soft, and tender chunks of lamb layered with long-grain rice infused with hand-ground spices.
+          Slow-cooked cardamom, clove, and cinnamon deliver the signature Hyderabadi taste in every bite.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#fullMenu" class="btn btn-primary goto-menu">Order Now</a>
+          <a href="#drinks" class="btn btn-secondary">Explore Drinks</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="wave-separator" aria-hidden="true"></div>
+
+    <section class="menu-section reveal-on-scroll">
+      <div class="section-heading">
+        <p>Freshly Prepared Daily</p>
+        <h2>Popular Picks From Our Kitchen</h2>
+      </div>
+
+      <div class="carousel-shell">
+        <button class="arrow arrow-left" id="prevBtn" aria-label="Previous menu item">
+          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+        </button>
+
+        <div class="carousel-window" id="carouselWindow" aria-live="polite">
+          <div class="carousel-track" id="carouselTrack">
+            <article class="dish-card tone-green">
+              <img class="dish-image" src="https://images.pexels.com/photos/1869825/pexels-photo-1869825.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Jeera chawal" loading="lazy">
+              <span class="dish-price">Rs 180 <small>Rs 220</small></span>
+              <div class="dish-copy">
+                <span class="dish-script">Jeera</span>
+                <h3>Chawal</h3>
+                <div class="dish-rating"><i class="fa-solid fa-star"></i> 4.5</div>
+                <p>Fragrant basmati rice tempered with cumin, ghee, and herbs for a comforting finish.</p>
+                <a href="#fullMenu" class="order-link goto-menu">Place Order</a>
+              </div>
+            </article>
+
+            <article class="dish-card tone-gold">
+              <img class="dish-image" src="https://images.pexels.com/photos/9609838/pexels-photo-9609838.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Kadai chicken" loading="lazy">
+              <span class="dish-price">Rs 220 <small>Rs 260</small></span>
+              <div class="dish-copy">
+                <span class="dish-script">Kadai</span>
+                <h3>Chicken</h3>
+                <div class="dish-rating"><i class="fa-solid fa-star"></i> 4.6</div>
+                <p>Spicy chicken tossed with onions, bell peppers, and robust masala in kadai style.</p>
+                <a href="#fullMenu" class="order-link goto-menu">Place Order</a>
+              </div>
+            </article>
+
+            <article class="dish-card tone-olive">
+              <img class="dish-image" src="https://images.pexels.com/photos/9609859/pexels-photo-9609859.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Paneer makhani" loading="lazy">
+              <span class="dish-price">Rs 200 <small>Rs 240</small></span>
+              <div class="dish-copy">
+                <span class="dish-script">Makhni</span>
+                <h3>Paneer</h3>
+                <div class="dish-rating"><i class="fa-solid fa-star"></i> 4.5</div>
+                <p>Soft paneer in buttery cashew tomato gravy with a silky and mildly sweet profile.</p>
+                <a href="#fullMenu" class="order-link goto-menu">Place Order</a>
+              </div>
+            </article>
+
+            <article class="dish-card tone-crimson">
+              <img class="dish-image" src="https://images.pexels.com/photos/7394819/pexels-photo-7394819.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Tandoori fish" loading="lazy">
+              <span class="dish-price">Rs 260 <small>Rs 300</small></span>
+              <div class="dish-copy">
+                <span class="dish-script">Tandoori</span>
+                <h3>Fish</h3>
+                <div class="dish-rating"><i class="fa-solid fa-star"></i> 4.7</div>
+                <p>Fresh fish marinated in yogurt and spice blend, roasted for smoky charred flavor.</p>
+                <a href="#fullMenu" class="order-link goto-menu">Place Order</a>
+              </div>
+            </article>
+
+            <article class="dish-card tone-green">
+              <img class="dish-image" src="https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Mutton seekh kebab platter" loading="lazy">
+              <span class="dish-price">Rs 340 <small>Rs 390</small></span>
+              <div class="dish-copy">
+                <span class="dish-script">Seekh</span>
+                <h3>Kebab</h3>
+                <div class="dish-rating"><i class="fa-solid fa-star"></i> 4.6</div>
+                <p>Juicy minced mutton kebabs with smoky char and aromatic royal spice blend.</p>
+                <a href="#fullMenu" class="order-link goto-menu">Place Order</a>
+              </div>
+            </article>
+
+            <article class="dish-card tone-gold">
+              <img class="dish-image" src="https://images.pexels.com/photos/103124/pexels-photo-103124.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Vegetable pulao and rice platter" loading="lazy">
+              <span class="dish-price">Rs 210 <small>Rs 250</small></span>
+              <div class="dish-copy">
+                <span class="dish-script">Veg</span>
+                <h3>Pulao</h3>
+                <div class="dish-rating"><i class="fa-solid fa-star"></i> 4.4</div>
+                <p>Colorful vegetable pulao cooked in ghee with whole spices and garden herbs.</p>
+                <a href="#fullMenu" class="order-link goto-menu">Place Order</a>
+              </div>
+            </article>
+
+            <article class="dish-card tone-olive">
+              <img class="dish-image" src="https://images.pexels.com/photos/5410401/pexels-photo-5410401.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Andhra prawn fry spicy plate" loading="lazy">
+              <span class="dish-price">Rs 320 <small>Rs 370</small></span>
+              <div class="dish-copy">
+                <span class="dish-script">Andhra</span>
+                <h3>Prawn Fry</h3>
+                <div class="dish-rating"><i class="fa-solid fa-star"></i> 4.7</div>
+                <p>Prawns tossed in fiery chilli masala with curry leaves and a lemony finish.</p>
+                <a href="#fullMenu" class="order-link goto-menu">Place Order</a>
+              </div>
+            </article>
+
+            <article class="dish-card tone-crimson">
+              <img class="dish-image" src="https://images.pexels.com/photos/9609838/pexels-photo-9609838.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Roasted chicken masala platter" loading="lazy">
+              <span class="dish-price">Rs 280 <small>Rs 330</small></span>
+              <div class="dish-copy">
+                <span class="dish-script">Roast</span>
+                <h3>Chicken</h3>
+                <div class="dish-rating"><i class="fa-solid fa-star"></i> 4.6</div>
+                <p>Tender roasted chicken finished with pepper masala and buttery pan glaze.</p>
+                <a href="#fullMenu" class="order-link goto-menu">Place Order</a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <button class="arrow arrow-right" id="nextBtn" aria-label="Next menu item">
+          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
+    <section id="fullMenu" class="full-menu-section reveal-on-scroll">
+      <div class="section-heading align-left">
+        <p>Authentic Hyderabadi Selection</p>
+        <h2>Choose Your Dishes To Build The Order</h2>
+      </div>
+
+      <div class="menu-category-grid">
+        <article class="menu-category-card">
+          <h3>Biryani & Rice</h3>
+          <ul class="menu-list">
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Hyderabadi Mutton Dum Biryani</h4>
+                <p>Slow dum cooked basmati with marinated tender mutton.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 360</span>
+                <button class="add-item-btn" data-item="Hyderabadi Mutton Dum Biryani" data-price="360">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Chicken Dum Biryani</h4>
+                <p>Classic layered biryani with saffron and house biryani masala.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 290</span>
+                <button class="add-item-btn" data-item="Chicken Dum Biryani" data-price="290">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Prawns Biryani</h4>
+                <p>Coastal style prawns with fragrant rice and fried onions.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 380</span>
+                <button class="add-item-btn" data-item="Prawns Biryani" data-price="380">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Veg Dum Biryani</h4>
+                <p>Garden vegetables, whole spices, mint, and caramelized onions.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 240</span>
+                <button class="add-item-btn" data-item="Veg Dum Biryani" data-price="240">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Bagara Rice + Mirchi Salan</h4>
+                <p>Traditional wedding style rice served with nutty sesame gravy.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 180</span>
+                <button class="add-item-btn" data-item="Bagara Rice + Mirchi Salan" data-price="180">Add</button>
+              </div>
+            </li>
+          </ul>
+        </article>
+
+        <article class="menu-category-card">
+          <h3>Kebabs & Starters</h3>
+          <ul class="menu-list">
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Chicken 65</h4>
+                <p>Crispy fried chicken bites with curry leaves and garlic tempering.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 260</span>
+                <button class="add-item-btn" data-item="Chicken 65" data-price="260">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Pathar Ka Gosht</h4>
+                <p>Mutton slices cooked on stone griddle with royal spices.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 340</span>
+                <button class="add-item-btn" data-item="Pathar Ka Gosht" data-price="340">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Seekh Kebab</h4>
+                <p>Char-grilled minced kebabs with mint and smoky tandoor notes.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 320</span>
+                <button class="add-item-btn" data-item="Seekh Kebab" data-price="320">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Apollo Fish</h4>
+                <p>Spicy tangy fish tossed in chef special Apollo sauce.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 360</span>
+                <button class="add-item-btn" data-item="Apollo Fish" data-price="360">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Hara Bhara Kebab</h4>
+                <p>Vegetable and spinach patties pan-finished with butter glaze.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 210</span>
+                <button class="add-item-btn" data-item="Hara Bhara Kebab" data-price="210">Add</button>
+              </div>
+            </li>
+          </ul>
+        </article>
+
+        <article class="menu-category-card">
+          <h3>Curries & Breads</h3>
+          <ul class="menu-list">
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Mutton Marag</h4>
+                <p>Old city style mildly spiced mutton soup curry.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 330</span>
+                <button class="add-item-btn" data-item="Mutton Marag" data-price="330">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Mirchi Ka Salan</h4>
+                <p>Chilli and peanut sesame gravy with tamarind depth.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 190</span>
+                <button class="add-item-btn" data-item="Mirchi Ka Salan" data-price="190">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Bagara Baingan</h4>
+                <p>Baby eggplants simmered in creamy nut and spice masala.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 220</span>
+                <button class="add-item-btn" data-item="Bagara Baingan" data-price="220">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Butter Naan</h4>
+                <p>Soft tandoor naan brushed with butter and crushed garlic.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 55</span>
+                <button class="add-item-btn" data-item="Butter Naan" data-price="55">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Rumali Roti</h4>
+                <p>Ultra-thin hand tossed bread ideal with kebabs and curries.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 45</span>
+                <button class="add-item-btn" data-item="Rumali Roti" data-price="45">Add</button>
+              </div>
+            </li>
+          </ul>
+        </article>
+
+        <article class="menu-category-card">
+          <h3>Desserts & Sweets</h3>
+          <ul class="menu-list">
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Qubani Ka Meetha</h4>
+                <p>Apricot dessert topped with cream, served chilled.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 170</span>
+                <button class="add-item-btn" data-item="Qubani Ka Meetha" data-price="170">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Double Ka Meetha</h4>
+                <p>Rich bread pudding with saffron milk and nuts.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 160</span>
+                <button class="add-item-btn" data-item="Double Ka Meetha" data-price="160">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Khubani With Ice Cream</h4>
+                <p>Warm khubani reduction with vanilla scoop.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 210</span>
+                <button class="add-item-btn" data-item="Khubani With Ice Cream" data-price="210">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Shahi Tukda</h4>
+                <p>Fried bread with rabri and cardamom sugar syrup.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 190</span>
+                <button class="add-item-btn" data-item="Shahi Tukda" data-price="190">Add</button>
+              </div>
+            </li>
+            <li class="menu-item">
+              <div class="menu-item-copy">
+                <h4>Kaddu Ki Kheer</h4>
+                <p>Pumpkin based festive kheer with dry fruit garnish.</p>
+              </div>
+              <div class="menu-item-action">
+                <span>Rs 150</span>
+                <button class="add-item-btn" data-item="Kaddu Ki Kheer" data-price="150">Add</button>
+              </div>
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="menu-cta-row">
+        <a href="#checkout" class="btn btn-primary">Go To Checkout</a>
+      </div>
+    </section>
+
+    <section id="drinks" class="drinks-section reveal-on-scroll">
+      <div class="section-heading align-left">
+        <p>Chai, Coolers, and More</p>
+        <h2>Drinks Counter</h2>
+      </div>
+
+      <div class="drinks-grid">
+        <article class="drink-card">
+          <img src="https://images.pexels.com/photos/5946981/pexels-photo-5946981.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Irani chai" loading="lazy">
+          <div class="drink-content">
+            <h3>Irani Chai</h3>
+            <p>Strong brewed tea with milk foam and classic old city flavor.</p>
+            <div class="drink-meta">
+              <span>Rs 90</span>
+              <button class="add-item-btn" data-item="Irani Chai" data-price="90">Add Drink</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="drink-card">
+          <img src="https://images.pexels.com/photos/1194030/pexels-photo-1194030.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Sweet lassi" loading="lazy">
+          <div class="drink-content">
+            <h3>Saffron Lassi</h3>
+            <p>Thick yogurt lassi with saffron threads and pistachio topping.</p>
+            <div class="drink-meta">
+              <span>Rs 140</span>
+              <button class="add-item-btn" data-item="Saffron Lassi" data-price="140">Add Drink</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="drink-card">
+          <img src="https://images.pexels.com/photos/1346347/pexels-photo-1346347.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Falooda glass" loading="lazy">
+          <div class="drink-content">
+            <h3>Rose Falooda</h3>
+            <p>Rooh rose syrup, vermicelli, basil seeds, ice cream, and nuts.</p>
+            <div class="drink-meta">
+              <span>Rs 180</span>
+              <button class="add-item-btn" data-item="Rose Falooda" data-price="180">Add Drink</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="drink-card">
+          <img src="https://images.pexels.com/photos/6544379/pexels-photo-6544379.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Badam milk" loading="lazy">
+          <div class="drink-content">
+            <h3>Badam Milk</h3>
+            <p>Chilled almond milk infused with cardamom and saffron.</p>
+            <div class="drink-meta">
+              <span>Rs 130</span>
+              <button class="add-item-btn" data-item="Badam Milk" data-price="130">Add Drink</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="drink-card">
+          <img src="https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Fresh lime soda" loading="lazy">
+          <div class="drink-content">
+            <h3>Fresh Lime Soda</h3>
+            <p>Sweet or salted sparkling lime soda for a refreshing reset.</p>
+            <div class="drink-meta">
+              <span>Rs 100</span>
+              <button class="add-item-btn" data-item="Fresh Lime Soda" data-price="100">Add Drink</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="drink-card">
+          <img src="https://images.pexels.com/photos/5946973/pexels-photo-5946973.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Kulfi shake" loading="lazy">
+          <div class="drink-content">
+            <h3>Matka Kulfi Shake</h3>
+            <p>Creamy kulfi blended shake served in a chilled clay matka cup.</p>
+            <div class="drink-meta">
+              <span>Rs 190</span>
+              <button class="add-item-btn" data-item="Matka Kulfi Shake" data-price="190">Add Drink</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="specials" class="service-strip reveal-on-scroll">
+      <article class="service-card">
+        <i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i>
+        <h3>Live Tandoor Counter</h3>
+        <p>Fresh naan, kebabs, and tikkas prepared live through dinner.</p>
+      </article>
+      <article class="service-card">
+        <i class="fa-solid fa-utensils" aria-hidden="true"></i>
+        <h3>Family Dining Hall</h3>
+        <p>Comfortable AC seating with private tables for families and groups.</p>
+      </article>
+      <article class="service-card">
+        <i class="fa-solid fa-moon" aria-hidden="true"></i>
+        <h3>Late Night Biryani</h3>
+        <p>Extended kitchen hours for post-dinner biryani and chai cravings.</p>
+      </article>
+      <article class="service-card">
+        <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
+        <h3>Party Catering</h3>
+        <p>Bulk catering and handi biryani delivery for events and weddings.</p>
+      </article>
+    </section>
+
+    <section id="checkout" class="checkout-section reveal-on-scroll">
+      <div class="section-heading align-left">
+        <p>Finalize Your Meal</p>
+        <h2>Order Checkout</h2>
+      </div>
+
+      <div class="checkout-layout">
+        <aside class="cart-panel">
+          <h3>Your Order Cart</h3>
+          <p id="cartEmptyState">No items added yet. Choose dishes from menu or drinks section.</p>
+          <ul id="cartItems" class="cart-items" aria-live="polite"></ul>
+
+          <div class="bill-summary">
+            <div><span>Subtotal</span><strong id="subtotalAmount">Rs 0</strong></div>
+            <div><span>GST (5%)</span><strong id="gstAmount">Rs 0</strong></div>
+            <div><span>Delivery Fee</span><strong id="deliveryAmount">Rs 0</strong></div>
+            <div class="bill-total"><span>Total Payable</span><strong id="totalAmount">Rs 0</strong></div>
+          </div>
+
+          <a href="#fullMenu" class="back-menu-link">Add More Items</a>
+        </aside>
+
+        <form id="checkoutForm" class="checkout-form" novalidate>
+          <h3>Customer Details</h3>
+
+          <label for="customerName">Full Name</label>
+          <input id="customerName" name="customerName" type="text" placeholder="Enter your full name" required>
+
+          <label for="customerPhone">Phone Number</label>
+          <input id="customerPhone" name="customerPhone" type="tel" placeholder="10-digit phone number" pattern="[0-9]{10}" required>
+
+          <div class="form-grid">
+            <div>
+              <label for="serviceType">Order Type</label>
+              <select id="serviceType" name="serviceType" required>
+                <option value="Dine In">Dine In</option>
+                <option value="Takeaway">Takeaway</option>
+                <option value="Delivery">Delivery</option>
+              </select>
+            </div>
+            <div>
+              <label for="tableNumber">Table / Slot</label>
+              <input id="tableNumber" name="tableNumber" type="text" placeholder="T5 or 8:30 PM">
+            </div>
+          </div>
+
+          <label for="deliveryAddress">Delivery Address</label>
+          <textarea id="deliveryAddress" name="deliveryAddress" rows="3" placeholder="Required only for Delivery"></textarea>
+
+          <fieldset>
+            <legend>Payment Method</legend>
+            <div class="payment-options">
+              <label><input type="radio" name="paymentMethod" value="UPI" checked> UPI</label>
+              <label><input type="radio" name="paymentMethod" value="Card"> Card</label>
+              <label><input type="radio" name="paymentMethod" value="Cash"> Cash</label>
+            </div>
+          </fieldset>
+
+          <label for="specialNotes">Special Notes</label>
+          <textarea id="specialNotes" name="specialNotes" rows="3" placeholder="Less spicy, no onion, extra gravy, etc."></textarea>
+
+          <button type="submit" class="btn btn-primary wide-btn">Place Final Order</button>
+          <p class="checkout-note">Order confirmation appears instantly below after checkout validation.</p>
+          <div id="orderMessage" class="order-message" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="socials" aria-label="Social media links">
+      <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+      <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    </div>
+
+    <ul class="footer-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#fullMenu">Menu</a></li>
+      <li><a href="#drinks">Drinks</a></li>
+      <li><a href="#specials">Specials</a></li>
+      <li><a href="#checkout">Checkout</a></li>
+      <li><a href="tel:+919000790007">Call Us</a></li>
+    </ul>
+
+    <p>Copyright © 2010-2026 Kanigiri Restaurant. All rights reserved.</p>
+  </footer>
+
+  <div id="toastStack" class="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="orders-store.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
