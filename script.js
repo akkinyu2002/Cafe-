@@ -562,6 +562,27 @@ function bindSort() {
   });
 }
 
+function bindKeyboardShortcuts() {
+  document.addEventListener("keydown", (event) => {
+    const key = event.key.toLowerCase();
+    const ctrlOrCmd = event.ctrlKey || event.metaKey;
+
+    if (key === "escape" && cartDrawer.classList.contains("open")) {
+      closeCart();
+    }
+
+    if (ctrlOrCmd && key === "k") {
+      event.preventDefault();
+      menuSearch.focus();
+    }
+
+    if (ctrlOrCmd && key === "b") {
+      event.preventDefault();
+      openCart();
+    }
+  });
+}
+
 function initReveal() {
   const observer = new IntersectionObserver(
     (entries) => {
@@ -592,6 +613,7 @@ function init() {
   bindTopLevelActions();
   bindSearch();
   bindSort();
+  bindKeyboardShortcuts();
   initReveal();
 
   orderType.addEventListener("change", setOrderTypeUI);
