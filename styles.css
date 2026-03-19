@@ -931,6 +931,21 @@ p {
   color: #9ee2de;
 }
 
+.order-summary {
+  margin: 0 0.9rem 1rem;
+  border: 1px solid rgba(255, 218, 181, 0.2);
+  border-radius: 12px;
+  padding: 0.7rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: #edcfaa;
+  font-size: 0.85rem;
+  display: none;
+}
+
+.order-summary.show {
+  display: block;
+}
+
 .overlay {
   position: fixed;
   inset: 0;

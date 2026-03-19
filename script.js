@@ -118,6 +118,7 @@ const cartDrawer = document.getElementById("cartDrawer");
 const overlay = document.getElementById("overlay");
 const toast = document.getElementById("toast");
 const orderStatus = document.getElementById("orderStatus");
+const orderSummary = document.getElementById("orderSummary");
 const menuSearch = document.getElementById("menuSearch");
 const menuSort = document.getElementById("menuSort");
 const categoryFilters = document.getElementById("categoryFilters");
@@ -262,6 +263,15 @@ function getCartItemCount() {
   return Object.values(state.cart).reduce((acc, item) => acc + item.qty, 0);
 }
 
+function getPriceTotals() {
+  const subtotal = Object.values(state.cart).reduce((sum, item) => sum + item.price * item.qty, 0);
+  const gst = Math.round(subtotal * 0.05);
+  const service = Math.round(subtotal * 0.08);
+  const deliveryFee = getDeliveryFee();
+  const total = subtotal + gst + service + deliveryFee;
+  return { subtotal, gst, service, deliveryFee, total };
+}
+
 function buildCartRows() {
   const entries = Object.values(state.cart);
 
@@ -297,20 +307,16 @@ function buildCartRows() {
 }
 
 function renderCart() {
-  const subtotal = Object.values(state.cart).reduce((sum, item) => sum + item.price * item.qty, 0);
-  const gst = Math.round(subtotal * 0.05);
-  const service = Math.round(subtotal * 0.08);
-  const deliveryFee = getDeliveryFee();
-  const total = subtotal + gst + service + deliveryFee;
+  const totals = getPriceTotals();
 
   cartItemsEl.innerHTML = buildCartRows();
   cartCountEl.textContent = String(getCartItemCount());
 
-  subtotalEl.textContent = formatINR(subtotal);
-  gstEl.textContent = formatINR(gst);
-  serviceEl.textContent = formatINR(service);
-  deliveryFeeEl.textContent = formatINR(deliveryFee);
-  totalEl.textContent = formatINR(total);
+  subtotalEl.textContent = formatINR(totals.subtotal);
+  gstEl.textContent = formatINR(totals.gst);
+  serviceEl.textContent = formatINR(totals.service);
+  deliveryFeeEl.textContent = formatINR(totals.deliveryFee);
+  totalEl.textContent = formatINR(totals.total);
 }
 
 function addItemToCart(itemId, qty) {
@@ -429,6 +435,7 @@ function handlePlaceOrder(event) {
     return;
   }
 
+  const totals = getPriceTotals();
   let eta = "Ready in 15 mins";
   if (selectedType === "pickup") {
     eta = "20-25 mins";
@@ -441,6 +448,13 @@ function handlePlaceOrder(event) {
   const customerName = String(formData.get("customerName"));
 
   orderStatus.textContent = `Order confirmed, ${customerName}. Order ID: ${orderId}. Estimated time: ${eta}.`;
+  orderSummary.innerHTML = `
+    <strong>Last Order Summary</strong><br />
+    Items: ${itemCount}<br />
+    Type: ${String(selectedType)}<br />
+    Total Paid: ${formatINR(totals.total)}
+  `;
+  orderSummary.classList.add("show");
   showToast("Order placed successfully");
 
   state.cart = {};
