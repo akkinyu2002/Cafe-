@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanigiri Admin Panel</title>
+  <meta name="description" content="Real-time admin panel for managing Hyderabadi restaurant orders.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-bg" aria-hidden="true"></div>
+
+  <header class="admin-topbar">
+    <a href="index.html" class="admin-brand">KANIGIRI ADMIN</a>
+    <div class="admin-top-actions">
+      <a href="index.html" class="admin-link-btn">Back To Website</a>
+      <button id="refreshOrdersBtn" class="admin-link-btn">Refresh</button>
+      <button id="logoutBtn" class="admin-link-btn">Logout</button>
+    </div>
+  </header>
+
+  <section id="adminGate" class="admin-gate">
+    <form id="adminGateForm" class="admin-gate-card" novalidate>
+      <p>Protected Access</p>
+      <h1>Admin Login Required</h1>
+      <label for="adminUsername">Username</label>
+      <input id="adminUsername" name="adminUsername" type="text" placeholder="Enter admin username" required>
+      <label for="adminPassword">Password</label>
+      <div class="password-field">
+        <input id="adminPassword" name="adminPassword" type="password" placeholder="Enter admin password" required>
+        <button id="togglePasswordBtn" class="password-toggle-btn" type="button" aria-label="Show password" aria-pressed="false" title="Show password">&#128065;</button>
+      </div>
+      <button type="submit">Unlock Admin Panel</button>
+      <div id="gateError" class="gate-error" aria-live="polite"></div>
+    </form>
+  </section>
+
+  <main class="admin-main">
+    <section class="admin-headline">
+      <p>Live Order Operations</p>
+      <h1>Real-Time Order Management Panel</h1>
+      <span id="lastSyncText" class="sync-text">Waiting for updates...</span>
+    </section>
+
+    <section class="summary-grid">
+      <article class="summary-card">
+        <h2 id="summaryTotal">0</h2>
+        <p>Total Orders</p>
+      </article>
+      <article class="summary-card">
+        <h2 id="summaryActive">0</h2>
+        <p>Active Orders</p>
+      </article>
+      <article class="summary-card">
+        <h2 id="summaryCancelled">0</h2>
+        <p>Cancelled Orders</p>
+      </article>
+      <article class="summary-card">
+        <h2 id="summaryRevenue">Rs 0</h2>
+        <p>Non-Cancelled Revenue</p>
+      </article>
+    </section>
+
+    <section class="admin-filters">
+      <label>
+        Search
+        <input id="orderSearchInput" type="search" placeholder="Search by order id, customer, phone, item">
+      </label>
+
+      <label>
+        Status
+        <select id="orderStatusFilter">
+          <option value="All">All</option>
+          <option value="Placed">Placed</option>
+          <option value="Preparing">Preparing</option>
+          <option value="Ready">Ready</option>
+          <option value="Out for Delivery">Out for Delivery</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </label>
+    </section>
+
+    <div id="adminNotice" class="admin-notice" aria-live="polite"></div>
+
+    <section id="adminOrders" class="orders-grid" aria-live="polite"></section>
+  </main>
+
+  <script src="orders-store.js" defer></script>
+  <script src="admin.js" defer></script>
+</body>
+</html>
