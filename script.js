@@ -127,6 +127,26 @@ function formatINR(value) {
   return `Rs ${value.toLocaleString("en-IN")}`;
 }
 
+function getDietTag(item) {
+  if (item.name.includes("Chicken")) {
+    return "Non-Veg";
+  }
+  return "Veg";
+}
+
+function getFlavorTag(item) {
+  if (item.category === "meal") {
+    return "Medium Spice";
+  }
+  if (item.category === "mocktail") {
+    return "Refreshing";
+  }
+  if (item.category === "dessert") {
+    return "Sweet";
+  }
+  return "Bold Roast";
+}
+
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("show");
@@ -173,6 +193,10 @@ function renderMenu() {
         <span class="menu-tag">${item.category}</span>
         <h3>${item.name}</h3>
         <p>${item.desc}</p>
+        <div class="menu-badges">
+          <span class="badge diet">${getDietTag(item)}</span>
+          <span class="badge flavor">${getFlavorTag(item)}</span>
+        </div>
         <div class="menu-meta">
           <span>${formatINR(item.price)}</span>
           <span>Rating ${item.rating}</span>
