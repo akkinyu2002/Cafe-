@@ -878,6 +878,13 @@ p {
   text-align: center;
   color: #bf9f7a;
   padding: 1.1rem 0;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: center;
+}
+
+.cart-empty p {
+  margin: 0;
 }
 
 .price-breakup {

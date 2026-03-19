@@ -245,7 +245,12 @@ function buildCartRows() {
   const entries = Object.values(state.cart);
 
   if (!entries.length) {
-    return '<div class="cart-empty">Your cart is empty. Add items from the menu.</div>';
+    return `
+      <div class="cart-empty">
+        <p>Your cart is empty. Add items from the menu.</p>
+        <button type="button" class="btn btn-small btn-soft" data-open-menu>Browse Menu</button>
+      </div>
+    `;
   }
 
   return entries
@@ -466,6 +471,12 @@ function bindCartInteractions() {
 
     if (target.dataset.cartAction && target.dataset.cartId) {
       updateCartQty(target.dataset.cartId, target.dataset.cartAction);
+      return;
+    }
+
+    if (target.dataset.openMenu !== undefined) {
+      closeCart();
+      document.getElementById("menu").scrollIntoView({ behavior: "smooth" });
     }
   });
 }
