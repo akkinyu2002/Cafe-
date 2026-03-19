@@ -414,7 +414,17 @@ function generateOrderId() {
   return `CBH${new Date().getFullYear()}${random}`;
 }
 
-function handlePlaceOrder(event) {
+function setCheckoutBusy(isBusy) {
+  const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+  if (!submitBtn) {
+    return;
+  }
+
+  submitBtn.disabled = isBusy;
+  submitBtn.textContent = isBusy ? "Placing order..." : "Confirm & Place Order";
+}
+
+async function handlePlaceOrder(event) {
   event.preventDefault();
 
   const itemCount = getCartItemCount();
@@ -457,6 +467,10 @@ function handlePlaceOrder(event) {
   `;
   orderSummary.classList.add("show");
   showToast("Order placed successfully");
+
+  setCheckoutBusy(true);
+  await new Promise((resolve) => setTimeout(resolve, 700));
+  setCheckoutBusy(false);
 
   state.cart = {};
   renderCart();

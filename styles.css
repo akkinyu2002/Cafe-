@@ -226,6 +226,12 @@ p {
   filter: brightness(1.07);
 }
 
+.btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .btn-primary {
   color: #251509;
   background: linear-gradient(135deg, #f4c483, #ee8e3b);
