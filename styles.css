@@ -737,6 +737,28 @@ p {
   align-items: stretch;
 }
 
+.faq-grid {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.faq-grid details {
+  border: 1px solid rgba(255, 218, 181, 0.2);
+  border-radius: 14px;
+  padding: 0.75rem 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.faq-grid summary {
+  cursor: pointer;
+  color: #f5d5ae;
+  font-weight: 600;
+}
+
+.faq-grid p {
+  margin-top: 0.5rem;
+}
+
 .contact-grid ul {
   padding: 0;
   list-style: none;
