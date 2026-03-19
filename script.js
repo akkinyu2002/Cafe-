@@ -97,6 +97,8 @@
   }
 ];
 
+const STORAGE_KEY = "cbh_cart_v1";
+
 const state = {
   category: "all",
   query: "",
@@ -153,6 +155,25 @@ function showToast(message) {
   setTimeout(() => {
     toast.classList.remove("show");
   }, 2200);
+}
+
+function persistCart() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.cart));
+}
+
+function loadCart() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) {
+      return;
+    }
+    const parsed = JSON.parse(saved);
+    if (parsed && typeof parsed === "object") {
+      state.cart = parsed;
+    }
+  } catch (_error) {
+    state.cart = {};
+  }
 }
 
 function getFilteredMenu() {
@@ -280,6 +301,7 @@ function addItemToCart(itemId, qty) {
 
   state.cart[itemId].qty += qty;
   renderCart();
+  persistCart();
   showToast(`${menuItem.name} added to cart`);
 }
 
@@ -296,11 +318,13 @@ function updateCartQty(itemId, direction) {
   }
 
   renderCart();
+  persistCart();
 }
 
 function removeCartItem(itemId) {
   delete state.cart[itemId];
   renderCart();
+  persistCart();
   showToast("Item removed from cart");
 }
 
@@ -369,6 +393,7 @@ function handlePlaceOrder(event) {
 
   state.cart = {};
   renderCart();
+  persistCart();
   checkoutForm.reset();
   orderType.value = "delivery";
   setOrderTypeUI();
@@ -485,6 +510,7 @@ function bindSpecialCombos() {
 
       state.cart[id].qty += 1;
       renderCart();
+      persistCart();
       showToast(`${name} added to cart`);
     });
   });
@@ -553,6 +579,7 @@ function initReveal() {
 }
 
 function init() {
+  loadCart();
   renderMenu();
   renderCart();
   setOrderTypeUI();
