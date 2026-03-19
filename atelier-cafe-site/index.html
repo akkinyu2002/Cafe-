@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aster & Ember | Cafe and Kitchen, Hyderabad</title>
+  <meta name="description" content="Aster & Ember is a modern cafe and restaurant in Hyderabad serving craft coffee, seasonal plates, and slow evenings." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container nav-shell">
+      <a class="brand" href="#top" aria-label="Aster and Ember home">
+        <span class="brand-mark">AE</span>
+        <span class="brand-name">Aster & Ember</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="siteNav">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+        <a href="#about">Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#specialties">Specialties</a>&
+        <a href="#journal">Journal</a>
+        <a href="#visit">Visit</a>
+        <a class="nav-cta" href="#reserve">Reserve</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero section" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="kicker">Cafe and Kitchen | Hyderabad</p>
+          <h1 id="hero-title">A warm room for slow coffee, sharp flavors, and long conversations.</h1>
+          <p class="hero-text">
+            Mornings begin with hand-poured brews, afternoons move into bright plates,
+            and evenings close with wood-fired comfort. Everything is made in-house,
+            with ingredients chosen from nearby growers and local markets.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#menu">Explore Menu</a>
+            <a class="btn btn-secondary" href="#reserve">Book A Table</a>
+          </div>
+        </div>
+
+        <div class="hero-panel reveal" aria-hidden="true">
+          <article class="hero-card hero-card-main">
+            <p class="hero-card-label">Signature Pour</p>
+            <h2>Cardamom Honey Flat White</h2>
+            <p>Double ristretto, raw honey, crushed cardamom, and glossy milk.</p>
+            <span>INR 260</span>
+          </article>
+          <article class="hero-card hero-card-sub">
+            <p class="hero-card-label">Tonight</p>
+            <h2>Chef's Tasting Corner</h2>
+            <p>Five-course small plates by reservation only.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brand story -->
+    <section class="about section" id="about" aria-labelledby="about-title">
+      <div class="container about-grid reveal">
+        <div class="about-copy">
+          <p class="kicker">Our Story</p>
+          <h2 id="about-title">Built around the pace of old Hyderabad evenings.</h2>
+          <p>
+            Aster & Ember started with one question: what if a cafe felt like a private living room,
+            and a restaurant felt like an open kitchen at home? The answer became this space,
+            where every table receives the same care as the first one of the day.
+          </p>
+          <p>
+            Our pastry bench starts before sunrise, our spice blends are toasted in small batches,
+            and our coffee program changes with each harvest.
+          </p>
+        </div>
+        <aside class="about-notes">
+          <div>
+            <h3>House Values</h3>
+            <ul>
+              <li>Seasonal ingredients first</li>
+              <li>Small-batch roasting and baking</li>
+              <li>Service that feels thoughtful, never loud</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Since</h3>
+            <p>2018, Banjara Hills</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Menu preview -->
+    <section class="menu section" id="menu" aria-labelledby="menu-title">
+      <div class="container reveal">
+        <div class="section-head">
+          <p class="kicker">Menu Preview</p>
+          <h2 id="menu-title">What guests keep coming back for</h2>
+        </div>
+
+        <div class="menu-grid">
+          <article class="menu-item">
+            <h3>Saffron Cold Brew</h3>
+            <p>16-hour steeped coffee, citrus peel oil, and saffron milk foam.</p>
+            <span>INR 240</span>
+          </article>
+          <article class="menu-item">
+            <h3>Smoked Tomato Shakshuka</h3>
+            <p>Free-range eggs in roasted tomato sauce with sourdough soldiers.</p>
+            <span>INR 390</span>
+          </article>
+          <article class="menu-item">
+            <h3>Millet & Herb Risotto</h3>
+            <p>Creamy foxtail millet, basil oil, charred zucchini, toasted seeds.</p>
+            <span>INR 460</span>
+          </article>
+          <article class="menu-item">
+            <h3>Lamb Pepper Fry Toastie</h3>
+            <p>Slow-cooked lamb, black pepper crust, pickled onion, house aioli.</p>
+            <span>INR 520</span>
+          </article>
+          <article class="menu-item">
+            <h3>Carrot Cardamom Cake</h3>
+            <p>Brown butter crumb, cream cheese glaze, candied pumpkin seeds.</p>
+            <span>INR 280</span>
+          </article>
+          <article class="menu-item">
+            <h3>Tamarind Spritz</h3>
+            <p>House tamarind cordial, tonic bubbles, green chili salt rim.</p>
+            <span>INR 210</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured specialties -->
+    <section class="specialties section" id="specialties" aria-labelledby="specialties-title">
+      <div class="container reveal">
+        <div class="section-head">
+          <p class="kicker">Featured Specialties</p>
+          <h2 id="specialties-title">Crafted with detail, served with restraint</h2>
+        </div>
+
+        <div class="specialty-grid">
+          <article class="specialty-card">
+            <p class="meta">Roastery Program</p>
+            <h3>Single-Origin Flight</h3>
+            <p>Compare three origins side by side with tasting notes from our baristas.</p>
+          </article>
+          <article class="specialty-card">
+            <p class="meta">Kitchen Counter</p>
+            <h3>Open-Fire Weeknight Menu</h3>
+            <p>A rotating dinner format with one protein, one vegetarian plate, one dessert.</p>
+          </article>
+          <article class="specialty-card">
+            <p class="meta">Weekend Ritual</p>
+            <h3>Long Brunch Table</h3>
+            <p>Shared plates, filtered coffee refills, and quiet vinyl from 10 AM.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Standout editorial/asymmetric section -->
+    <section class="journal section" id="journal" aria-labelledby="journal-title">
+      <div class="container journal-layout reveal">
+        <article class="journal-feature">
+          <p class="kicker">Editorial Feature</p>
+          <h2 id="journal-title">The corner table that catches the 5:20 PM light.</h2>
+          <p>
+            We designed one long asymmetric room around changing daylight. In late afternoon,
+            light falls across the coffee counter, then drifts to the communal table. The atmosphere
+            shifts hour by hour without ever feeling staged.
+          </p>
+          <a class="text-link" href="#visit">See the space in person</a>
+        </article>
+
+        <aside class="journal-side">
+          <article>
+            <h3>Materials</h3>
+            <p>Natural lime plaster, reclaimed teak, and hand-finished brass details.</p>
+          </article>
+          <article>
+            <h3>Sound</h3>
+            <p>Soft acoustic set-up tuned for conversation, not noise.</p>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Contact, location, and hours -->
+    <section class="visit section" id="visit" aria-labelledby="visit-title">
+      <div class="container visit-grid reveal">
+        <div>
+          <p class="kicker">Contact & Location</p>
+          <h2 id="visit-title">Visit Aster & Ember</h2>
+          <p>
+            22 Road No. 12, Banjara Hills, Hyderabad, Telangana 500034
+          </p>
+          <p>
+            +91 90000 38171<br />
+            hello@asterember.in
+          </p>
+          <a class="btn btn-secondary" href="https://maps.google.com/?q=Banjara+Hills+Hyderabad" target="_blank" rel="noopener">Open Map</a>
+        </div>
+
+        <div class="hours" id="reserve">
+          <h3>Opening Hours</h3>
+          <ul>
+            <li><span>Monday to Thursday</span><strong>8:00 AM - 10:30 PM</strong></li>
+            <li><span>Friday</span><strong>8:00 AM - 11:30 PM</strong></li>
+            <li><span>Saturday</span><strong>9:00 AM - 11:30 PM</strong></li>
+            <li><span>Sunday</span><strong>9:00 AM - 10:00 PM</strong></li>
+          </ul>
+          <p class="small-note">Reservations are recommended for dinner after 7:30 PM.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>Aster & Ember. Crafted in Hyderabad.</p>
+      <p><span id="year"></span> All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
