@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charminar Brew House | Cafe | Bar | Restaurant</title>
+  <meta name="description" content="Charminar Brew House - Premium cafe, bar, and restaurant in Hyderabad. Explore menu, add to cart, and place your order online." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="site-header" id="home">
+    <div class="container nav-wrap">
+      <a href="#home" class="brand">
+        <span class="brand-mark">CB</span>
+        <span class="brand-text">Charminar Brew House</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#menu">Menu</a>
+        <a href="#facilities">Facilities</a>
+        <a href="#specials">Specials</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button id="cartToggle" class="cart-toggle" aria-label="Open cart">
+        <span>Order</span>
+        <span id="cartCount" class="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section-pad reveal">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Hyderabad, India</p>
+          <h1>Taste the city where coffee, cocktails, and cuisine meet.</h1>
+          <p>
+            A premium cafe-bar-restaurant experience inspired by Hyderabad nights.
+            From artisan coffee to chef-curated meals, choose your favorites and place your order instantly.
+          </p>
+          <div class="hero-actions">
+            <a href="#menu" class="btn btn-primary">Select Your Order</a>
+            <button class="btn btn-soft" id="quickOrderBtn">Place Order Now</button>
+          </div>
+          <ul class="hero-points">
+            <li>Open daily: 8:00 AM - 12:00 AM</li>
+            <li>Live music on weekends</li>
+            <li>Fast delivery across Hyderabad</li>
+          </ul>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="floating-card card-1">
+            <p>Signature Latte</p>
+            <span>Rs 220</span>
+          </div>
+          <div class="floating-card card-2">
+            <p>Hyderabadi Mandi</p>
+            <span>Rs 640</span>
+          </div>
+          <div class="hero-cup">
+            <div class="cup-lid"></div>
+            <div class="cup-body"></div>
+            <div class="cup-badge">CB</div>
+          </div>
+          <div class="bean bean-1"></div>
+          <div class="bean bean-2"></div>
+          <div class="bean bean-3"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats section-pad reveal">
+      <div class="container stats-grid">
+        <article>
+          <h2>4.8/5</h2>
+          <p>Average guest rating</p>
+        </article>
+        <article>
+          <h2>35 min</h2>
+          <p>Average delivery time</p>
+        </article>
+        <article>
+          <h2>120+</h2>
+          <p>Menu items crafted fresh</p>
+        </article>
+        <article>
+          <h2>8 years</h2>
+          <p>Serving Hyderabad food lovers</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="menu section-pad" id="menu">
+      <div class="container reveal">
+        <div class="section-head">
+          <p class="eyebrow">Order Online</p>
+          <h2>Pick your favorites</h2>
+          <p>Filter by category, choose quantity, and add directly to your cart.</p>
+        </div>
+
+        <div class="menu-controls">
+          <div class="filter-group" id="categoryFilters" role="tablist" aria-label="Menu categories">
+            <button class="chip active" data-category="all">All</button>
+            <button class="chip" data-category="coffee">Coffee</button>
+            <button class="chip" data-category="mocktail">Mocktails</button>
+            <button class="chip" data-category="meal">Meals</button>
+            <button class="chip" data-category="dessert">Desserts</button>
+          </div>
+          <label class="search-wrap" for="menuSearch">
+            <input id="menuSearch" type="search" placeholder="Search menu item..." />
+          </label>
+        </div>
+
+        <div id="menuGrid" class="menu-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="facilities section-pad" id="facilities">
+      <div class="container reveal">
+        <div class="section-head">
+          <p class="eyebrow">Why Choose Us</p>
+          <h2>Facilities for every mood</h2>
+        </div>
+        <div class="facility-grid">
+          <article class="facility-card">
+            <h3>Rooftop Dining</h3>
+            <p>Panoramic city views with premium seating and evening ambience.</p>
+          </article>
+          <article class="facility-card">
+            <h3>Family Lounge</h3>
+            <p>Comfort-first indoor section with dedicated family-friendly menus.</p>
+          </article>
+          <article class="facility-card">
+            <h3>Private Events</h3>
+            <p>Birthday, corporate, and celebration bookings with custom packages.</p>
+          </article>
+          <article class="facility-card">
+            <h3>Live Bar Counter</h3>
+            <p>Signature mocktails and curated pairings made fresh at your table.</p>
+          </article>
+          <article class="facility-card">
+            <h3>Fast Delivery</h3>
+            <p>Reliable ordering experience with live order status updates.</p>
+          </article>
+          <article class="facility-card">
+            <h3>Valet & Parking</h3>
+            <p>Easy access parking and valet support on all peak service hours.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="specials section-pad" id="specials">
+      <div class="container reveal">
+        <div class="section-head">
+          <p class="eyebrow">Chef Specials</p>
+          <h2>Combos you should not miss</h2>
+        </div>
+        <div class="special-grid">
+          <article class="special-card" data-id="s1" data-name="Nizam Combo" data-price="980">
+            <h3>Nizam Combo</h3>
+            <p>Chicken mandi + saffron tea + baklava</p>
+            <div class="special-footer">
+              <span>Rs 980</span>
+              <button class="btn btn-small add-special">Add Combo</button>
+            </div>
+          </article>
+          <article class="special-card" data-id="s2" data-name="Charminar Brunch" data-price="760">
+            <h3>Charminar Brunch</h3>
+            <p>Loaded omelette + garlic toast + cold brew</p>
+            <div class="special-footer">
+              <span>Rs 760</span>
+              <button class="btn btn-small add-special">Add Combo</button>
+            </div>
+          </article>
+          <article class="special-card" data-id="s3" data-name="Royal Sweet End" data-price="540">
+            <h3>Royal Sweet End</h3>
+            <p>Kunafa + chocolate lava + rose milk mocktail</p>
+            <div class="special-footer">
+              <span>Rs 540</span>
+              <button class="btn btn-small add-special">Add Combo</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials section-pad reveal">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Guest Stories</p>
+          <h2>People love the vibe and flavors</h2>
+        </div>
+        <div class="testimonial-grid">
+          <article>
+            <p>"Best cafe-bar blend in Hyderabad. Fast service and incredible coffee."</p>
+            <h3>Amrita S.</h3>
+          </article>
+          <article>
+            <p>"Ordered online twice this week. Packaging and taste were top-notch."</p>
+            <h3>Rahul K.</h3>
+          </article>
+          <article>
+            <p>"Great rooftop ambience for group dinners. Their mocktails are amazing."</p>
+            <h3>Ahmed M.</h3>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="booking section-pad reveal">
+      <div class="container booking-grid">
+        <div>
+          <p class="eyebrow">Reserve A Table</p>
+          <h2>Dine in with comfort</h2>
+          <p>
+            Planning a dinner, celebration, or quick meeting? Reserve your table in seconds.
+          </p>
+        </div>
+        <form id="bookingForm" class="booking-form">
+          <label>
+            Full Name
+            <input type="text" name="name" required />
+          </label>
+          <label>
+            Phone Number
+            <input type="tel" name="phone" pattern="[0-9]{10}" placeholder="10 digit mobile" required />
+          </label>
+          <label>
+            Guests
+            <input type="number" name="guests" min="1" max="25" required />
+          </label>
+          <label>
+            Date
+            <input type="date" name="date" required />
+          </label>
+          <label>
+            Time
+            <input type="time" name="time" required />
+          </label>
+          <button class="btn btn-primary" type="submit">Book Table</button>
+          <p class="tiny-note">Our team confirms bookings within 10 minutes.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="contact section-pad" id="contact">
+      <div class="container contact-grid reveal">
+        <div>
+          <p class="eyebrow">Visit Us</p>
+          <h2>Near Banjara Hills, Hyderabad</h2>
+          <p>
+            Plot 22, Road No. 12, Banjara Hills, Hyderabad, Telangana 500034
+          </p>
+          <ul>
+            <li>Phone: +91 90000 12345</li>
+            <li>Email: hello@charminarbrewhouse.in</li>
+            <li>Open: Mon-Sun, 8:00 AM - 12:00 AM</li>
+          </ul>
+          <a class="btn btn-soft" target="_blank" rel="noopener" href="https://maps.google.com/?q=Banjara+Hills+Hyderabad">Open in Maps</a>
+        </div>
+        <div class="map-card" role="img" aria-label="Stylized map placeholder for Charminar Brew House Hyderabad">
+          <span>Hyderabad Service Zones</span>
+          <p>Jubilee Hills, Banjara Hills, Gachibowli, Hitech City, Secunderabad</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>(c) 2026 Charminar Brew House. Crafted for Hyderabad food lovers.</p>
+      <button class="btn btn-small" id="scrollTopBtn">Back to top</button>
+    </div>
+  </footer>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="cart-head">
+      <h2>Your Order</h2>
+      <button id="closeCart" class="icon-btn" aria-label="Close cart">x</button>
+    </div>
+
+    <div id="cartItems" class="cart-items"></div>
+
+    <div class="price-breakup">
+      <div><span>Subtotal</span><strong id="subtotal">Rs 0</strong></div>
+      <div><span>GST (5%)</span><strong id="gst">Rs 0</strong></div>
+      <div><span>Service (8%)</span><strong id="service">Rs 0</strong></div>
+      <div class="grand"><span>Total</span><strong id="total">Rs 0</strong></div>
+    </div>
+
+    <form id="checkoutForm" class="checkout-form">
+      <h3>Place your order</h3>
+      <label>
+        Full Name
+        <input type="text" name="customerName" required />
+      </label>
+      <label>
+        Mobile Number
+        <input type="tel" name="customerPhone" pattern="[0-9]{10}" placeholder="10 digit mobile" required />
+      </label>
+      <label>
+        Order Type
+        <select name="orderType" id="orderType" required>
+          <option value="delivery">Delivery</option>
+          <option value="pickup">Pickup</option>
+          <option value="dinein">Dine-in</option>
+        </select>
+      </label>
+      <label id="addressWrap">
+        Delivery Address
+        <textarea name="address" rows="2" placeholder="House no, area, landmark"></textarea>
+      </label>
+      <label id="tableWrap" class="hidden">
+        Table Preference
+        <input type="text" name="tablePreference" placeholder="Window / Family / Rooftop" />
+      </label>
+      <label>
+        Payment Method
+        <select name="payment" required>
+          <option value="upi">UPI</option>
+          <option value="card">Card</option>
+          <option value="cash">Cash</option>
+        </select>
+      </label>
+      <label>
+        Notes
+        <textarea name="notes" rows="2" placeholder="Any cooking preferences?"></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary">Confirm & Place Order</button>
+    </form>
+
+    <p id="orderStatus" class="order-status" aria-live="polite"></p>
+  </aside>
+
+  <div id="overlay" class="overlay"></div>
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
