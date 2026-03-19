@@ -1011,6 +1011,39 @@ p {
   transform: translateX(-50%) translateY(0);
 }
 
+.floating-cart {
+  position: fixed;
+  right: 16px;
+  bottom: 18px;
+  z-index: 55;
+  border: 1px solid rgba(79, 180, 176, 0.55);
+  border-radius: 999px;
+  background: rgba(24, 88, 85, 0.95);
+  color: #e5fffe;
+  padding: 0.6rem 0.9rem;
+  font-family: inherit;
+  font-weight: 700;
+  display: none;
+  gap: 0.45rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.floating-cart span {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: #f8d39f;
+  color: #2a170c;
+  font-size: 0.75rem;
+}
+
+.floating-cart.show {
+  display: inline-flex;
+}
+
 .hidden {
   display: none;
 }
@@ -1115,6 +1148,12 @@ p {
 
   .cart-drawer {
     width: 100vw;
+  }
+}
+
+@media (min-width: 721px) {
+  .floating-cart {
+    display: none !important;
   }
 }
 

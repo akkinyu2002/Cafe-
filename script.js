@@ -119,6 +119,8 @@ const overlay = document.getElementById("overlay");
 const toast = document.getElementById("toast");
 const orderStatus = document.getElementById("orderStatus");
 const orderSummary = document.getElementById("orderSummary");
+const floatingCart = document.getElementById("floatingCart");
+const floatingCartCount = document.getElementById("floatingCartCount");
 const menuSearch = document.getElementById("menuSearch");
 const menuSort = document.getElementById("menuSort");
 const categoryFilters = document.getElementById("categoryFilters");
@@ -309,9 +311,16 @@ function buildCartRows() {
 
 function renderCart() {
   const totals = getPriceTotals();
+  const itemCount = getCartItemCount();
 
   cartItemsEl.innerHTML = buildCartRows();
-  cartCountEl.textContent = String(getCartItemCount());
+  cartCountEl.textContent = String(itemCount);
+  floatingCartCount.textContent = String(itemCount);
+  if (itemCount > 0) {
+    floatingCart.classList.add("show");
+  } else {
+    floatingCart.classList.remove("show");
+  }
 
   subtotalEl.textContent = formatINR(totals.subtotal);
   gstEl.textContent = formatINR(totals.gst);
@@ -620,6 +629,7 @@ function bindBookingForm() {
 
 function bindTopLevelActions() {
   document.getElementById("cartToggle").addEventListener("click", openCart);
+  floatingCart.addEventListener("click", openCart);
   document.getElementById("closeCart").addEventListener("click", closeCart);
   overlay.addEventListener("click", closeCart);
 
