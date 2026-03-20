@@ -49,8 +49,43 @@
         <div class="hero-spice spice-2"></div>
         <div class="hero-spice spice-3"></div>
 
-        <article class="hero-plate-card">
-          <img src="https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Freshly served mutton biryani in a black tray" loading="eager">
+        <article class="hero-plate-card" id="heroPlateCard" aria-live="polite">
+          <figure
+            class="hero-slide is-active"
+            data-main="Mutton"
+            data-tail="Biryani"
+            data-price="360"
+            data-old-price="410"
+            data-rating="4.5"
+            data-reviews="521 Reviews"
+            data-description="Aromatic, soft, and tender chunks of lamb layered with long-grain rice infused with hand-ground spices. Slow-cooked cardamom, clove, and cinnamon deliver the signature Hyderabadi taste in every bite."
+          >
+            <img src="https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Freshly served mutton biryani in a black tray" loading="eager">
+          </figure>
+          <figure
+            class="hero-slide"
+            data-main="Chicken"
+            data-tail="Biryani"
+            data-price="290"
+            data-old-price="340"
+            data-rating="4.6"
+            data-reviews="468 Reviews"
+            data-description="Fragrant basmati layered with juicy chicken, saffron notes, and house biryani masala. Slow dum cooking locks in rich flavor and tenderness."
+          >
+            <img src="https://images.pexels.com/photos/9609838/pexels-photo-9609838.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Spiced chicken biryani served hot in a rustic bowl" loading="lazy">
+          </figure>
+          <figure
+            class="hero-slide"
+            data-main="Fish"
+            data-tail="Biryani"
+            data-price="330"
+            data-old-price="380"
+            data-rating="4.4"
+            data-reviews="392 Reviews"
+            data-description="Coastal-style fish biryani with fresh herbs, pepper, and aromatic rice. Lightly spiced fillets bring a bold yet balanced finish to every spoon."
+          >
+            <img src="https://images.pexels.com/photos/7394819/pexels-photo-7394819.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Fish biryani style platter with charred seafood and aromatic rice" loading="lazy">
+          </figure>
         </article>
 
         <figure class="hero-thumb thumb-1">
@@ -68,22 +103,22 @@
       </div>
 
       <div class="hero-content">
-        <span class="price-tag">Price <strong>Rs 360</strong> <small>Rs 410</small></span>
-        <h1><span>Mutton</span> Biryani</h1>
+        <span class="price-tag">Price <strong id="heroDishPrice">Rs 360</strong> <small id="heroDishOldPrice">Rs 410</small></span>
+        <h1><span class="hero-title-main" id="heroDishMain">Mutton</span><span class="hero-title-tail" id="heroDishTail">Biryani</span></h1>
 
         <div class="rating">
-          <div class="stars" aria-label="Rated 4.5 out of 5">
+          <div class="stars" id="heroDishStars" aria-label="Rated 4.5 out of 5">
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star-half-stroke"></i>
           </div>
-          <strong>4.5</strong>
-          <span>521 Reviews</span>
+          <strong id="heroDishRating">4.5</strong>
+          <span id="heroDishReviews">521 Reviews</span>
         </div>
 
-        <p>
+        <p id="heroDishDescription">
           Aromatic, soft, and tender chunks of lamb layered with long-grain rice infused with hand-ground spices.
           Slow-cooked cardamom, clove, and cinnamon deliver the signature Hyderabadi taste in every bite.
         </p>
@@ -91,6 +126,20 @@
         <div class="hero-actions">
           <a href="#fullMenu" class="btn btn-primary goto-menu">Order Now</a>
           <a href="#drinks" class="btn btn-secondary">Explore Drinks</a>
+        </div>
+
+        <div class="hero-slider-controls" aria-label="Featured biryani slider controls">
+          <button type="button" class="hero-slider-nav" id="heroSliderPrev" aria-label="Show previous biryani">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <div class="hero-slider-dots" id="heroSliderDots" aria-label="Featured biryani options">
+            <button type="button" class="hero-slider-dot is-active" data-slide-index="0" aria-current="true" aria-label="Show mutton biryani"></button>
+            <button type="button" class="hero-slider-dot" data-slide-index="1" aria-current="false" aria-label="Show chicken biryani"></button>
+            <button type="button" class="hero-slider-dot" data-slide-index="2" aria-current="false" aria-label="Show fish biryani"></button>
+          </div>
+          <button type="button" class="hero-slider-nav" id="heroSliderNext" aria-label="Show next biryani">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </section>
