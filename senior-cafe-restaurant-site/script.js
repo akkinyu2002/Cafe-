@@ -11,6 +11,20 @@ const loadRevealElements = document.querySelectorAll(".reveal-on-load");
 const scrollRevealElements = document.querySelectorAll(".reveal-on-scroll");
 const gotoMenuLinks = document.querySelectorAll(".goto-menu");
 const addItemButtons = document.querySelectorAll(".add-item-btn");
+const heroSlides = Array.from(document.querySelectorAll(".hero-slide"));
+const heroSliderDots = Array.from(document.querySelectorAll(".hero-slider-dot"));
+const heroSliderPrev = document.getElementById("heroSliderPrev");
+const heroSliderNext = document.getElementById("heroSliderNext");
+const heroSliderDotsWrap = document.getElementById("heroSliderDots");
+const heroPlateCard = document.getElementById("heroPlateCard");
+const heroDishPrice = document.getElementById("heroDishPrice");
+const heroDishOldPrice = document.getElementById("heroDishOldPrice");
+const heroDishMain = document.getElementById("heroDishMain");
+const heroDishTail = document.getElementById("heroDishTail");
+const heroDishRating = document.getElementById("heroDishRating");
+const heroDishReviews = document.getElementById("heroDishReviews");
+const heroDishDescription = document.getElementById("heroDishDescription");
+const heroDishStars = document.getElementById("heroDishStars");
 
 const cartItemsElement = document.getElementById("cartItems");
 const cartEmptyState = document.getElementById("cartEmptyState");
@@ -25,6 +39,9 @@ const orderMessage = document.getElementById("orderMessage");
 const toastStack = document.getElementById("toastStack");
 
 let currentIndex = 0;
+let heroSlideIndex = 0;
+let heroSliderTimer = null;
+const HERO_SLIDE_INTERVAL_MS = 5200;
 const cart = new Map();
 
 function formatCurrency(value) {
@@ -84,6 +101,92 @@ function syncCarousel() {
 
   if (nextBtn) {
     nextBtn.disabled = currentIndex >= maxIndex;
+  }
+}
+
+function stopHeroSlider() {
+  if (heroSliderTimer === null) {
+    return;
+  }
+
+  window.clearInterval(heroSliderTimer);
+  heroSliderTimer = null;
+}
+
+function startHeroSlider() {
+  stopHeroSlider();
+
+  if (heroSlides.length < 2) {
+    return;
+  }
+
+  heroSliderTimer = window.setInterval(() => {
+    updateHeroSlide(heroSlideIndex + 1);
+  }, HERO_SLIDE_INTERVAL_MS);
+}
+
+function updateHeroSlide(index) {
+  if (heroSlides.length === 0) {
+    return;
+  }
+
+  const totalSlides = heroSlides.length;
+  heroSlideIndex = ((index % totalSlides) + totalSlides) % totalSlides;
+  const activeSlide = heroSlides[heroSlideIndex];
+
+  heroSlides.forEach((slide, slideIndex) => {
+    slide.classList.toggle("is-active", slideIndex === heroSlideIndex);
+  });
+
+  heroSliderDots.forEach((dot, dotIndex) => {
+    const isActive = dotIndex === heroSlideIndex;
+    dot.classList.toggle("is-active", isActive);
+    dot.setAttribute("aria-current", isActive ? "true" : "false");
+  });
+
+  if (!activeSlide) {
+    return;
+  }
+
+  if (heroDishMain) {
+    heroDishMain.textContent = activeSlide.dataset.main || "";
+  }
+
+  if (heroDishTail) {
+    heroDishTail.textContent = activeSlide.dataset.tail || "";
+  }
+
+  const currentPrice = Number.parseFloat(activeSlide.dataset.price || "");
+  if (heroDishPrice && Number.isFinite(currentPrice) && currentPrice > 0) {
+    heroDishPrice.textContent = formatCurrency(currentPrice);
+  }
+
+  const previousPrice = Number.parseFloat(activeSlide.dataset.oldPrice || "");
+  if (heroDishOldPrice) {
+    if (Number.isFinite(previousPrice) && previousPrice > 0) {
+      heroDishOldPrice.textContent = formatCurrency(previousPrice);
+      heroDishOldPrice.hidden = false;
+    } else {
+      heroDishOldPrice.textContent = "";
+      heroDishOldPrice.hidden = true;
+    }
+  }
+
+  if (heroDishRating) {
+    heroDishRating.textContent = activeSlide.dataset.rating || "";
+  }
+
+  if (heroDishReviews) {
+    heroDishReviews.textContent = activeSlide.dataset.reviews || "";
+  }
+
+  if (heroDishDescription) {
+    heroDishDescription.textContent = activeSlide.dataset.description || "";
+  }
+
+  if (heroDishStars) {
+    const rating = activeSlide.dataset.rating || "4.5";
+    heroDishStars.setAttribute("aria-label", `Rated ${rating} out of 5`);
   }
 }
 
@@ -325,6 +428,43 @@ if (nextBtn) {
   });
 }
 
+if (heroSliderPrev) {
+  heroSliderPrev.addEventListener("click", () => {
+    updateHeroSlide(heroSlideIndex - 1);
+    startHeroSlider();
+  });
+}
+
+if (heroSliderNext) {
+  heroSliderNext.addEventListener("click", () => {
+    updateHeroSlide(heroSlideIndex + 1);
+    startHeroSlider();
+  });
+}
+
+heroSliderDots.forEach((dot) => {
+  dot.addEventListener("click", () => {
+    const slideIndex = Number.parseInt(dot.dataset.slideIndex || "", 10);
+
+    if (Number.isNaN(slideIndex)) {
+      return;
+    }
+
+    updateHeroSlide(slideIndex);
+    startHeroSlider();
+  });
+});
+
+if (heroSliderDotsWrap) {
+  heroSliderDotsWrap.addEventListener("mouseenter", stopHeroSlider);
+  heroSliderDotsWrap.addEventListener("mouseleave", startHeroSlider);
+}
+
+if (heroPlateCard) {
+  heroPlateCard.addEventListener("mouseenter", stopHeroSlider);
+  heroPlateCard.addEventListener("mouseleave", startHeroSlider);
+}
+
 window.addEventListener("resize", syncCarousel);
 
 dishCards.forEach((card, index) => {
@@ -480,3 +620,14 @@ document.querySelectorAll("img").forEach((image) => {
 setDeliveryRequirement();
 renderCart();
 syncCarousel();
+updateHeroSlide(0);
+startHeroSlider();
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    stopHeroSlider();
+    return;
+  }
+
+  startHeroSlider();
+});
