@@ -16,6 +16,7 @@ const orderStatusFilter = document.getElementById("orderStatusFilter");
 const adminOrders = document.getElementById("adminOrders");
 const adminNotice = document.getElementById("adminNotice");
 const refreshOrdersBtn = document.getElementById("refreshOrdersBtn");
+const deleteAllOrdersBtn = document.getElementById("deleteAllOrdersBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const lastSyncText = document.getElementById("lastSyncText");
 
@@ -90,6 +91,10 @@ function setAuthState(isAuthenticated) {
 
   if (refreshOrdersBtn instanceof HTMLButtonElement) {
     refreshOrdersBtn.disabled = !isAuthenticated;
+  }
+
+  if (deleteAllOrdersBtn instanceof HTMLButtonElement) {
+    deleteAllOrdersBtn.disabled = !isAuthenticated;
   }
 
   if (logoutBtn instanceof HTMLButtonElement) {
@@ -345,6 +350,28 @@ function saveUpdatedOrder(orderId, updater, successMessage) {
   setNotice(successMessage, "success");
 }
 
+function handleDeleteAllOrders() {
+  if (!orderStore || typeof orderStore.replaceOrders !== "function") {
+    setNotice("Order store is unavailable.", "error");
+    return;
+  }
+
+  if (allOrders.length === 0) {
+    setNotice("No orders available to delete.", "error");
+    return;
+  }
+
+  const confirmed = window.confirm("Delete all orders? This action cannot be undone.");
+  if (!confirmed) {
+    return;
+  }
+
+  orderStore.replaceOrders([], { action: "cleared-all", by: "admin", at: nowStamp() });
+  loadOrders();
+  renderAll();
+  setNotice("All orders deleted successfully.", "success");
+}
+
 function handleStatusChange(event) {
   const target = event.target;
   if (!(target instanceof HTMLSelectElement) || !target.matches(".status-select")) {
@@ -528,6 +555,8 @@ function initAdminPanel() {
     renderAll();
     setNotice("Orders refreshed.", "success");
   });
+
+  deleteAllOrdersBtn?.addEventListener("click", handleDeleteAllOrders);
 
   adminOrders?.addEventListener("change", handleStatusChange);
   adminOrders?.addEventListener("click", handleCardClick);

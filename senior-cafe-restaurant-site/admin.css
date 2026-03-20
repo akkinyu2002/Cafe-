@@ -85,6 +85,16 @@ body.admin-authenticated .admin-gate {
   cursor: not-allowed;
 }
 
+.admin-link-btn.danger-btn {
+  background: #fbe8e7;
+  border-color: #f1c5c1;
+  color: #8c2f29;
+}
+
+.admin-link-btn.danger-btn:hover:not(:disabled) {
+  background: #f7dedd;
+}
+
 .admin-main {
   width: min(1240px, calc(100% - 40px));
   margin: 12px auto 40px;
