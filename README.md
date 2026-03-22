@@ -1,13 +1,9 @@
-# Cafe
+# Kanigiri Cafe
 
-## Introduction
-
-This is a café project...
+Welcome to Kanigiri Cafe, where you can enjoy the best Japanese snacks and beverages! Our mission is to provide high-quality products with authentic flavors and a warm atmosphere. Come and visit us!
 
 ## Live Demo
 
-Check out the live demo at [Live Demo Link](https://your-live-demo-link.com).
+You can view our project live at: [GitHub Pages Live Demo](https://akkinyu2002.github.io/Cafe-/)
 
-## GitHub Pages
-
-You can view the project on GitHub Pages at [GitHub Pages Link](https://akkinyu2002.github.io/Cafe-).
+Feel free to explore our offerings and get a taste of what we have to offer!
