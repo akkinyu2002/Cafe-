@@ -4,8 +4,8 @@ const ORDER_STATUSES = ["Placed", "Preparing", "Ready", "Out for Delivery", "Com
 const ACTIVE_STATUSES = new Set(["Placed", "Preparing", "Ready", "Out for Delivery"]);
 
 const ADMIN_SESSION_KEY = "kanigiri_admin_session_v1";
-const ADMIN_USERNAME = "kanigiri_admin";
-const ADMIN_PASSWORD = "Kanigiri@2026";
+const ADMIN_USERNAME = "Admin";
+const ADMIN_PASSWORD = "Admin";
 
 const summaryTotal = document.getElementById("summaryTotal");
 const summaryActive = document.getElementById("summaryActive");
