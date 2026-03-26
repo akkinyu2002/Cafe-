@@ -66,9 +66,13 @@ body.admin-authenticated .admin-gate {
 .admin-top-actions {
   display: inline-flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .admin-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid #dbcab6;
   background: #fff6e8;
   color: #7a562f;
@@ -78,10 +82,15 @@ body.admin-authenticated .admin-gate {
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
+  text-align: center;
+  min-height: 44px;
 }
 
 .admin-link-btn:disabled {
-  opacity: 0.5;
+  opacity: 1;
+  background: #f5efe5;
+  border-color: #dfd1c0;
+  color: #99897b;
   cursor: not-allowed;
 }
 
@@ -562,6 +571,19 @@ body.admin-authenticated .admin-gate {
     flex-wrap: wrap;
   }
 
+  .admin-top-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 8px;
+  }
+
+  .admin-link-btn {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+  }
+
   .admin-filters {
     grid-template-columns: 1fr;
   }
@@ -575,6 +597,12 @@ body.admin-authenticated .admin-gate {
   }
 
   .item-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 430px) {
+  .admin-top-actions {
     grid-template-columns: 1fr;
   }
 }

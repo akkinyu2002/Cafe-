@@ -478,6 +478,8 @@ window.requestAnimationFrame(() => {
 });
 
 if ("IntersectionObserver" in window) {
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+  const revealThreshold = window.matchMedia("(max-width: 920px)").matches ? 0.01 : 0.16;
   const revealObserver = new IntersectionObserver(
     (entries, observer) => {
       entries.forEach((entry) => {
@@ -489,10 +491,20 @@ if ("IntersectionObserver" in window) {
         observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.2 }
+    { threshold: revealThreshold, rootMargin: "0px 0px -8% 0px" }
   );
 
-  scrollRevealElements.forEach((element) => revealObserver.observe(element));
+  scrollRevealElements.forEach((element) => {
+    const rect = element.getBoundingClientRect();
+    const startsInViewport = rect.top <= viewportHeight * 0.96 && rect.bottom >= 0;
+
+    if (startsInViewport) {
+      element.classList.add("is-visible");
+      return;
+    }
+
+    revealObserver.observe(element);
+  });
 } else {
   scrollRevealElements.forEach((element) => {
     element.classList.add("is-visible");
