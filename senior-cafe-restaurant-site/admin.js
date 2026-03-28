@@ -485,8 +485,8 @@ function saveUpdatedOrder(orderId, updater, successMessage) {
   setNotice(successMessage, "success");
 }
 
-function handleDeleteAllOrders() {
-  if (!orderStore || typeof orderStore.replaceOrders !== "function") {
+async function handleDeleteAllOrders() {
+  if (!orderStore || typeof orderStore.clearAllOrders !== "function") {
     setNotice("Order store is unavailable.", "error");
     return;
   }
@@ -501,10 +501,30 @@ function handleDeleteAllOrders() {
     return;
   }
 
-  orderStore.replaceOrders([], { action: "cleared-all", by: "admin", at: nowStamp() });
-  loadOrders();
-  renderAll();
-  setNotice("All orders deleted successfully.", "success");
+  if (deleteAllOrdersBtn instanceof HTMLButtonElement) {
+    deleteAllOrdersBtn.disabled = true;
+  }
+
+  setNotice("Deleting orders from Supabase...", "");
+
+  try {
+    const result = await orderStore.clearAllOrders({ action: "cleared-all", by: "admin", at: nowStamp() });
+
+    if (!result?.ok) {
+      loadOrders();
+      renderAll();
+      setNotice(result?.error || "Unable to delete orders from Supabase.", "error");
+      return;
+    }
+
+    loadOrders();
+    renderAll();
+    setNotice("All orders deleted successfully from Supabase.", "success");
+  } finally {
+    if (deleteAllOrdersBtn instanceof HTMLButtonElement) {
+      deleteAllOrdersBtn.disabled = false;
+    }
+  }
 }
 
 function handleStatusChange(event) {
@@ -696,7 +716,9 @@ function initAdminPanel() {
     setNotice("Orders refreshed.", "success");
   });
 
-  deleteAllOrdersBtn?.addEventListener("click", handleDeleteAllOrders);
+  deleteAllOrdersBtn?.addEventListener("click", () => {
+    void handleDeleteAllOrders();
+  });
 
   adminOrders?.addEventListener("change", handleStatusChange);
   adminOrders?.addEventListener("click", handleCardClick);
