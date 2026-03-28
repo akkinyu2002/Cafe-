@@ -379,21 +379,6 @@
     remoteSyncInFlight = (async () => {
       const remoteOrders = await fetchRemoteOrders();
 
-      if (remoteOrders.length === 0 && currentOrders.length > 0) {
-        await upsertRemoteOrders(currentOrders);
-        const uploadedOrders = await fetchRemoteOrders();
-
-        if (buildOrdersSignature(uploadedOrders) !== buildOrdersSignature(currentOrders)) {
-          saveOrdersLocally(
-            uploadedOrders,
-            { action: "remote-bootstrap-uploaded", source: "supabase" },
-            { emit: true, broadcast: true }
-          );
-        }
-
-        return getOrders();
-      }
-
       if (buildOrdersSignature(remoteOrders) !== buildOrdersSignature(currentOrders)) {
         saveOrdersLocally(remoteOrders, metadata || { action: "remote-sync", source: "supabase" }, {
           emit: true,
