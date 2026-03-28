@@ -556,6 +556,32 @@
     return getOrders();
   }
 
+  async function clearAllOrders(metadata) {
+    const nextMetadata = metadata || { action: "cleared-all", source: "local" };
+
+    if (!remoteEnabled) {
+      saveOrdersLocally([], nextMetadata);
+      return { ok: true, orders: getOrders(), source: "local" };
+    }
+
+    if (remoteAuthRequired && !hasAuthenticatedUser()) {
+      const message = "Sign in is required before deleting orders.";
+      emit("orders:error", { message, metadata: nextMetadata });
+      return { ok: false, error: message, orders: getOrders() };
+    }
+
+    try {
+      await clearRemoteOrders();
+      saveOrdersLocally([], { ...nextMetadata, source: "supabase" });
+      return { ok: true, orders: getOrders(), source: "supabase" };
+    } catch (error) {
+      const message = error?.message || "Unable to delete orders from Supabase.";
+      emit("orders:error", { message, metadata: nextMetadata });
+      await refreshOrders({ action: "clear-failed-refresh", source: "supabase" }).catch(() => null);
+      return { ok: false, error: message, orders: getOrders() };
+    }
+  }
+
   function subscribe(listener) {
     if (typeof listener !== "function") {
       return function noop() {};
@@ -612,6 +638,7 @@
     addOrder,
     updateOrder,
     replaceOrders,
+    clearAllOrders,
     subscribe
   };
 })();
