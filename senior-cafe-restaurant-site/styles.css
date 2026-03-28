@@ -981,6 +981,81 @@ main {
   gap: 10px;
 }
 
+.account-auth-box {
+  border: 1px solid #e6d9cb;
+  border-radius: 14px;
+  background: #fef9f2;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.account-auth-box h4 {
+  margin: 0;
+  color: #4e301f;
+  font-size: 0.95rem;
+}
+
+.account-help-text {
+  margin: 0;
+  color: #6e5a4e;
+  font-size: 0.78rem;
+}
+
+.account-auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mini-auth-btn {
+  border: 1px solid #d6ba8a;
+  background: #f3d39c;
+  color: #553515;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mini-auth-btn.alt {
+  background: #edf5e2;
+  border-color: #cbe0a7;
+  color: #48691e;
+}
+
+.mini-auth-btn.ghost {
+  background: #fff;
+  border-color: #d8c9bb;
+  color: #5f4637;
+}
+
+.mini-auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.account-status {
+  min-height: 34px;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 0.77rem;
+  line-height: 1.4;
+}
+
+.account-status.success {
+  background: #ecf7df;
+  border: 1px solid #c8e5a8;
+  color: #3f6118;
+}
+
+.account-status.error {
+  background: #ffeceb;
+  border: 1px solid #f4c3bf;
+  color: #8f2e28;
+}
+
 .checkout-form label,
 .checkout-form legend {
   color: #5c4132;

@@ -1,6 +1,9 @@
 ﻿const orderStore = window.KanigiriOrders || null;
 
 const mobileNavToggle = document.getElementById("mobileNavToggle");
+const authStore = window.KanigiriAuth || null;
+const supabaseConfig = window.KanigiriSupabaseConfig || {};
+const requireAuthForOrders = supabaseConfig.requireAuthForOrders !== false;
 const primaryNav = document.getElementById("primaryNav");
 const carouselTrack = document.getElementById("carouselTrack");
 const carouselWindow = document.getElementById("carouselWindow");
@@ -37,6 +40,12 @@ const deliveryAddress = document.getElementById("deliveryAddress");
 const checkoutForm = document.getElementById("checkoutForm");
 const orderMessage = document.getElementById("orderMessage");
 const toastStack = document.getElementById("toastStack");
+const accountEmailInput = document.getElementById("accountEmail");
+const accountPasswordInput = document.getElementById("accountPassword");
+const accountSignInBtn = document.getElementById("accountSignInBtn");
+const accountSignUpBtn = document.getElementById("accountSignUpBtn");
+const accountSignOutBtn = document.getElementById("accountSignOutBtn");
+const accountStatus = document.getElementById("accountStatus");
 
 let currentIndex = 0;
 let heroSlideIndex = 0;
@@ -226,6 +235,141 @@ function showToast(message, type) {
   }, 2600);
 }
 
+function isAuthFeatureEnabled() {
+  return Boolean(authStore && typeof authStore.isConfigured === "function" && authStore.isConfigured());
+}
+
+function canPlaceOrderNow() {
+  if (!requireAuthForOrders) {
+    return true;
+  }
+
+  if (!isAuthFeatureEnabled()) {
+    return true;
+  }
+
+  return Boolean(authStore?.isAuthenticated?.());
+}
+
+function setAccountStatus(message, type) {
+  if (!accountStatus) {
+    return;
+  }
+
+  accountStatus.textContent = message;
+  accountStatus.classList.remove("success", "error");
+
+  if (type) {
+    accountStatus.classList.add(type);
+  }
+}
+
+function readAccountCredentials() {
+  const email = accountEmailInput instanceof HTMLInputElement ? accountEmailInput.value.trim() : "";
+  const password = accountPasswordInput instanceof HTMLInputElement ? accountPasswordInput.value : "";
+  return { email, password };
+}
+
+function updateAccountAuthUi() {
+  const authEnabled = isAuthFeatureEnabled();
+  const authenticated = Boolean(authStore?.isAuthenticated?.());
+  const userEmail = typeof authStore?.getUserEmail === "function" ? authStore.getUserEmail() : "";
+
+  if (accountSignInBtn instanceof HTMLButtonElement) {
+    accountSignInBtn.disabled = !authEnabled || authenticated;
+  }
+  if (accountSignUpBtn instanceof HTMLButtonElement) {
+    accountSignUpBtn.disabled = !authEnabled || authenticated;
+  }
+  if (accountSignOutBtn instanceof HTMLButtonElement) {
+    accountSignOutBtn.disabled = !authEnabled || !authenticated;
+  }
+
+  if (!authEnabled) {
+    setAccountStatus("Account auth is unavailable. Add Supabase URL and anon key to enable login.", "error");
+    return;
+  }
+
+  if (authenticated) {
+    setAccountStatus(`Signed in as ${userEmail || "user"}.`, "success");
+    if (accountEmailInput instanceof HTMLInputElement && userEmail) {
+      accountEmailInput.value = userEmail;
+    }
+    if (accountPasswordInput instanceof HTMLInputElement) {
+      accountPasswordInput.value = "";
+    }
+    return;
+  }
+
+  const message = requireAuthForOrders
+    ? "Sign in to place online orders."
+    : "Sign in is optional for this ordering setup.";
+  setAccountStatus(message, "");
+}
+
+async function handleAccountSignIn() {
+  if (!isAuthFeatureEnabled()) {
+    setAccountStatus("Supabase auth is not configured.", "error");
+    return;
+  }
+
+  const { email, password } = readAccountCredentials();
+  if (!email || !password) {
+    setAccountStatus("Enter both email and password to sign in.", "error");
+    return;
+  }
+
+  setAccountStatus("Signing in...", "");
+  const result = await authStore.signIn(email, password);
+  if (!result?.ok) {
+    setAccountStatus(result?.error || "Sign in failed.", "error");
+    return;
+  }
+
+  setAccountStatus(`Welcome back, ${authStore.getUserEmail() || "user"}.`, "success");
+  updateAccountAuthUi();
+}
+
+async function handleAccountSignUp() {
+  if (!isAuthFeatureEnabled()) {
+    setAccountStatus("Supabase auth is not configured.", "error");
+    return;
+  }
+
+  const { email, password } = readAccountCredentials();
+  if (!email || !password) {
+    setAccountStatus("Enter email and password to create an account.", "error");
+    return;
+  }
+
+  setAccountStatus("Creating account...", "");
+  const result = await authStore.signUp(email, password);
+
+  if (!result?.ok) {
+    setAccountStatus(result?.error || "Account creation failed.", "error");
+    return;
+  }
+
+  if (result.needsEmailConfirmation) {
+    setAccountStatus("Account created. Confirm your email, then sign in.", "success");
+    return;
+  }
+
+  setAccountStatus(`Account ready and signed in as ${authStore.getUserEmail() || email}.`, "success");
+  updateAccountAuthUi();
+}
+
+async function handleAccountSignOut() {
+  if (!isAuthFeatureEnabled()) {
+    setAccountStatus("Supabase auth is not configured.", "error");
+    return;
+  }
+
+  await authStore.signOut();
+  setAccountStatus("Signed out successfully.", "success");
+  updateAccountAuthUi();
+}
+
 function getCartSubtotal() {
   let subtotal = 0;
   cart.forEach((item) => {
@@ -353,7 +497,7 @@ function generateOrderId() {
   return `HYD${stamp}${rand}`;
 }
 
-function buildOrderPayload() {
+function buildOrderPayload(authUser) {
   const billing = getBillingSnapshot();
   const customerNameField = document.getElementById("customerName");
   const customerPhoneField = document.getElementById("customerPhone");
@@ -370,11 +514,13 @@ function buildOrderPayload() {
 
   return {
     id: generateOrderId(),
+    userId: authUser?.id || "",
     createdAt: now,
     updatedAt: now,
     status: "Placed",
     customer: {
       name: customerNameField instanceof HTMLInputElement ? customerNameField.value.trim() : "Customer",
+      email: typeof authUser?.email === "string" ? authUser.email : "",
       phone: customerPhoneField instanceof HTMLInputElement ? customerPhoneField.value.trim() : "",
       serviceType: getOrderType(),
       tableOrSlot: tableField instanceof HTMLInputElement ? tableField.value.trim() : "",
@@ -569,6 +715,37 @@ if (serviceType) {
   });
 }
 
+if (accountSignInBtn instanceof HTMLButtonElement) {
+  accountSignInBtn.addEventListener("click", () => {
+    void handleAccountSignIn();
+  });
+}
+
+if (accountSignUpBtn instanceof HTMLButtonElement) {
+  accountSignUpBtn.addEventListener("click", () => {
+    void handleAccountSignUp();
+  });
+}
+
+if (accountSignOutBtn instanceof HTMLButtonElement) {
+  accountSignOutBtn.addEventListener("click", () => {
+    void handleAccountSignOut();
+  });
+}
+
+if (authStore && typeof authStore.subscribe === "function") {
+  authStore.subscribe((eventType, payload) => {
+    if (eventType === "auth:error") {
+      setAccountStatus(payload?.message || "Authentication issue detected.", "error");
+      return;
+    }
+
+    if (eventType === "auth:changed") {
+      updateAccountAuthUi();
+    }
+  });
+}
+
 if (checkoutForm) {
   checkoutForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -592,10 +769,25 @@ if (checkoutForm) {
       return;
     }
 
-    const orderPayload = buildOrderPayload();
+    if (!canPlaceOrderNow()) {
+      setMessage("Please sign in before placing an online order.", "error");
+      showToast("Sign in required", "error");
+      setAccountStatus("Please sign in to continue with checkout.", "error");
+      accountEmailInput?.focus();
+      return;
+    }
 
+    const authUser = typeof authStore?.getUser === "function" ? authStore.getUser() : null;
+    const orderPayload = buildOrderPayload(authUser);
+
+    let savedOrder = orderPayload;
     if (orderStore) {
-      orderStore.addOrder(orderPayload);
+      savedOrder = orderStore.addOrder(orderPayload);
+      if (!savedOrder) {
+        setMessage("Unable to place order right now. Please verify your account login.", "error");
+        showToast("Order sync failed", "error");
+        return;
+      }
     }
 
     const itemCount = orderPayload.items.reduce((acc, item) => acc + item.quantity, 0);
@@ -606,7 +798,7 @@ if (checkoutForm) {
       )}. Admin can manage this in admin panel.`,
       "success"
     );
-    showToast(`Order ${orderPayload.id} confirmed`);
+    showToast(`Order ${savedOrder.id} confirmed`);
 
     cart.clear();
     renderCart();
@@ -634,6 +826,13 @@ renderCart();
 syncCarousel();
 updateHeroSlide(0);
 startHeroSlider();
+updateAccountAuthUi();
+
+if (authStore && typeof authStore.ensureSession === "function") {
+  void authStore.ensureSession().finally(() => {
+    updateAccountAuthUi();
+  });
+}
 
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {

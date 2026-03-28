@@ -27,12 +27,12 @@
   <section id="adminGate" class="admin-gate">
     <form id="adminGateForm" class="admin-gate-card" novalidate>
       <p>Protected Access</p>
-      <h1>Admin Login Required</h1>
-      <label for="adminUsername">Username</label>
-      <input id="adminUsername" name="adminUsername" type="text" placeholder="Enter admin username" required>
+      <h1>Admin Account Login</h1>
+      <label for="adminUsername">Admin Email</label>
+      <input id="adminUsername" name="adminUsername" type="email" placeholder="Enter admin email" autocomplete="email" required>
       <label for="adminPassword">Password</label>
       <div class="password-field">
-        <input id="adminPassword" name="adminPassword" type="password" placeholder="Enter admin password" required>
+        <input id="adminPassword" name="adminPassword" type="password" placeholder="Enter admin password" autocomplete="current-password" required>
         <button id="togglePasswordBtn" class="password-toggle-btn" type="button" aria-label="Show password" aria-pressed="false" title="Show password">&#128065;</button>
       </div>
       <button type="submit">Unlock Admin Panel</button>
@@ -91,6 +91,8 @@
     <section id="adminOrders" class="orders-grid" aria-live="polite"></section>
   </main>
 
+  <script src="supabase-config.js" defer></script>
+  <script src="supabase-auth.js" defer></script>
   <script src="orders-store.js" defer></script>
   <script src="admin.js" defer></script>
 </body>

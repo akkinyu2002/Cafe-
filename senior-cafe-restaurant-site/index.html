@@ -629,6 +629,27 @@
         <form id="checkoutForm" class="checkout-form" novalidate>
           <h3>Customer Details</h3>
 
+          <section class="account-auth-box" aria-label="Account access">
+            <h4>Account Access</h4>
+            <p class="account-help-text">Sign in or create an account to place online orders.</p>
+            <div class="form-grid">
+              <div>
+                <label for="accountEmail">Account Email</label>
+                <input id="accountEmail" name="accountEmail" type="email" placeholder="you@example.com" autocomplete="email">
+              </div>
+              <div>
+                <label for="accountPassword">Account Password</label>
+                <input id="accountPassword" name="accountPassword" type="password" placeholder="Minimum 6 characters" autocomplete="current-password">
+              </div>
+            </div>
+            <div class="account-auth-actions">
+              <button type="button" id="accountSignInBtn" class="mini-auth-btn">Sign In</button>
+              <button type="button" id="accountSignUpBtn" class="mini-auth-btn alt">Create Account</button>
+              <button type="button" id="accountSignOutBtn" class="mini-auth-btn ghost">Sign Out</button>
+            </div>
+            <div id="accountStatus" class="account-status" aria-live="polite"></div>
+          </section>
+
           <label for="customerName">Full Name</label>
           <input id="customerName" name="customerName" type="text" placeholder="Enter your full name" required>
 
@@ -695,6 +716,8 @@
 
   <div id="toastStack" class="toast-stack" aria-live="polite" aria-atomic="true"></div>
 
+  <script src="supabase-config.js" defer></script>
+  <script src="supabase-auth.js" defer></script>
   <script src="orders-store.js" defer></script>
   <script src="script.js" defer></script>
 </body>

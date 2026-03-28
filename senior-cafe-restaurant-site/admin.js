@@ -1,11 +1,10 @@
 ﻿const orderStore = window.KanigiriOrders || null;
 
 const ORDER_STATUSES = ["Placed", "Preparing", "Ready", "Out for Delivery", "Completed", "Cancelled"];
+const authStore = window.KanigiriAuth || null;
 const ACTIVE_STATUSES = new Set(["Placed", "Preparing", "Ready", "Out for Delivery"]);
 
-const ADMIN_SESSION_KEY = "kanigiri_admin_session_v1";
-const ADMIN_USERNAME = "Admin";
-const ADMIN_PASSWORD = "Admin";
+const ADMIN_SESSION_KEY = "kanigiri_admin_session_v2";
 
 const summaryTotal = document.getElementById("summaryTotal");
 const summaryActive = document.getElementById("summaryActive");
@@ -28,6 +27,112 @@ const gateError = document.getElementById("gateError");
 
 let allOrders = [];
 let adminInitialized = false;
+let knownOrderIds = new Set();
+let alertAudioContext = null;
+let audioUnlockListenerBound = false;
+
+function getOrderId(order) {
+  const rawId = order?.id;
+  if (typeof rawId === "string" || typeof rawId === "number") {
+    return String(rawId);
+  }
+
+  return "";
+}
+
+function syncKnownOrderIds(orders) {
+  knownOrderIds = new Set(
+    (Array.isArray(orders) ? orders : [])
+      .map((order) => getOrderId(order))
+      .filter((id) => id.length > 0)
+  );
+}
+
+function collectNewOrders(nextOrders) {
+  if (!Array.isArray(nextOrders)) {
+    return [];
+  }
+
+  return nextOrders.filter((order) => {
+    const orderId = getOrderId(order);
+    return orderId && !knownOrderIds.has(orderId);
+  });
+}
+
+function getAlertAudioContext() {
+  const ContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!ContextClass) {
+    return null;
+  }
+
+  if (!alertAudioContext) {
+    alertAudioContext = new ContextClass();
+  }
+
+  return alertAudioContext;
+}
+
+function unlockAlertAudio() {
+  const context = getAlertAudioContext();
+  if (!context || context.state !== "suspended") {
+    return;
+  }
+
+  context.resume().catch(() => {
+    // Ignore autoplay policy failures until a user gesture is available.
+  });
+}
+
+function attachAudioUnlockListener() {
+  if (audioUnlockListenerBound) {
+    return;
+  }
+
+  const unlock = () => {
+    unlockAlertAudio();
+    document.removeEventListener("pointerdown", unlock);
+    document.removeEventListener("keydown", unlock);
+    audioUnlockListenerBound = false;
+  };
+
+  document.addEventListener("pointerdown", unlock, { passive: true });
+  document.addEventListener("keydown", unlock);
+  audioUnlockListenerBound = true;
+}
+
+function playNewOrderAlert(newOrderCount) {
+  const context = getAlertAudioContext();
+  if (!context) {
+    return;
+  }
+
+  if (context.state === "suspended") {
+    context.resume().catch(() => {});
+    return;
+  }
+
+  const pulseCount = Math.min(Math.max(Number(newOrderCount) || 1, 1), 3);
+  const start = context.currentTime + 0.02;
+
+  for (let index = 0; index < pulseCount; index += 1) {
+    const pulseStart = start + index * 0.24;
+    const oscillator = context.createOscillator();
+    const gainNode = context.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(880, pulseStart);
+    oscillator.frequency.linearRampToValueAtTime(1046, pulseStart + 0.09);
+
+    gainNode.gain.setValueAtTime(0.0001, pulseStart);
+    gainNode.gain.exponentialRampToValueAtTime(0.18, pulseStart + 0.02);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, pulseStart + 0.19);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(context.destination);
+    oscillator.start(pulseStart);
+    oscillator.stop(pulseStart + 0.2);
+  }
+}
 
 function formatCurrency(value) {
   return `Rs ${Math.round(Number(value) || 0)}`;
@@ -104,6 +209,35 @@ function setAuthState(isAuthenticated) {
 
 function hasAdminSession() {
   return window.sessionStorage.getItem(ADMIN_SESSION_KEY) === "true";
+}
+
+function isAuthEnabled() {
+  return Boolean(authStore && typeof authStore.isConfigured === "function" && authStore.isConfigured());
+}
+
+async function validateAdminUser() {
+  if (!isAuthEnabled()) {
+    return { ok: false, error: "Supabase auth is not configured. Update supabase-config.js first." };
+  }
+
+  if (typeof authStore.ensureSession === "function") {
+    await authStore.ensureSession();
+  }
+
+  if (!authStore.isAuthenticated?.()) {
+    return { ok: false, error: "Please sign in with an admin account." };
+  }
+
+  if (typeof authStore.isAdmin !== "function") {
+    return { ok: false, error: "Admin verification is unavailable." };
+  }
+
+  const allowed = await authStore.isAdmin();
+  if (!allowed) {
+    return { ok: false, error: "This account does not have admin access." };
+  }
+
+  return { ok: true };
 }
 
 function buildAudit(order, action, note) {
@@ -327,6 +461,7 @@ function renderOrders() {
 function renderAll() {
   updateSummary();
   renderOrders();
+  syncKnownOrderIds(allOrders);
 
   if (lastSyncText) {
     lastSyncText.textContent = `Last sync: ${formatDate(nowStamp())}`;
@@ -542,6 +677,7 @@ function initAdminPanel() {
 
   loadOrders();
   renderAll();
+  attachAudioUnlockListener();
 
   if (adminInitialized) {
     return;
@@ -550,7 +686,11 @@ function initAdminPanel() {
   orderSearchInput?.addEventListener("input", renderOrders);
   orderStatusFilter?.addEventListener("change", renderOrders);
 
-  refreshOrdersBtn?.addEventListener("click", () => {
+  refreshOrdersBtn?.addEventListener("click", async () => {
+    if (typeof orderStore.refreshOrders === "function") {
+      await orderStore.refreshOrders({ action: "manual-refresh", by: "admin" });
+    }
+
     loadOrders();
     renderAll();
     setNotice("Orders refreshed.", "success");
@@ -563,34 +703,69 @@ function initAdminPanel() {
   adminOrders?.addEventListener("submit", handleEditSubmit);
 
   orderStore.subscribe((eventType, payload) => {
+    if (eventType === "orders:error") {
+      setNotice(payload?.message || "Order sync issue detected.", "error");
+      return;
+    }
+
     if (eventType !== "orders:changed") {
       return;
     }
 
-    if (payload?.orders && Array.isArray(payload.orders)) {
-      allOrders = payload.orders;
-    } else {
-      loadOrders();
-    }
+    const nextOrders = payload?.orders && Array.isArray(payload.orders) ? payload.orders : orderStore.getOrders();
+    const newOrders = collectNewOrders(nextOrders);
+    allOrders = nextOrders;
 
     renderAll();
+
+    if (newOrders.length > 0) {
+      playNewOrderAlert(newOrders.length);
+      const latestOrderId = getOrderId(newOrders[0]);
+      const noticeMessage =
+        newOrders.length === 1
+          ? `New order received: ${latestOrderId}.`
+          : `${newOrders.length} new orders received. Latest: ${latestOrderId}.`;
+      setNotice(noticeMessage, "success");
+    }
   });
+
+  if (typeof orderStore.refreshOrders === "function") {
+    void orderStore.refreshOrders({ action: "admin-init-refresh", by: "admin" });
+  }
 
   adminInitialized = true;
 }
 
-function loginIsValid(username, password) {
-  return username === ADMIN_USERNAME && password === ADMIN_PASSWORD;
-}
-
-function handleGateSubmit(event) {
+async function handleGateSubmit(event) {
   event.preventDefault();
 
-  const username = adminUsernameInput instanceof HTMLInputElement ? adminUsernameInput.value.trim() : "";
+  const email = adminUsernameInput instanceof HTMLInputElement ? adminUsernameInput.value.trim().toLowerCase() : "";
   const password = adminPasswordInput instanceof HTMLInputElement ? adminPasswordInput.value : "";
 
-  if (!loginIsValid(username, password)) {
-    setGateMessage("Invalid credentials. Try again.");
+  if (!email || !password) {
+    setGateMessage("Enter admin email and password.");
+    setNotice("", "");
+    return;
+  }
+
+  if (!isAuthEnabled()) {
+    setGateMessage("Supabase auth is not configured. Update supabase-config.js first.");
+    setNotice("", "");
+    return;
+  }
+
+  setGateMessage("Checking admin access...");
+  const signInResult = await authStore.signIn(email, password);
+  if (!signInResult?.ok) {
+    setGateMessage(signInResult?.error || "Invalid credentials. Try again.");
+    setNotice("", "");
+    return;
+  }
+
+  const adminAccess = await validateAdminUser();
+  if (!adminAccess.ok) {
+    await authStore.signOut();
+    setGateMessage(adminAccess.error || "Admin access denied.");
     setNotice("", "");
     return;
   }
@@ -599,6 +774,7 @@ function handleGateSubmit(event) {
   setAuthState(true);
   setGateMessage("");
   setNotice("Admin access unlocked.", "success");
+  unlockAlertAudio();
 
   if (adminGateForm instanceof HTMLFormElement) {
     adminGateForm.reset();
@@ -618,11 +794,15 @@ function handleGateSubmit(event) {
   initAdminPanel();
 }
 
-function handleLogout() {
+async function handleLogout() {
   window.sessionStorage.removeItem(ADMIN_SESSION_KEY);
   setAuthState(false);
   setNotice("", "");
-  setGateMessage("Logged out. Enter credentials to continue.");
+  setGateMessage("Logged out. Enter admin email and password to continue.");
+
+  if (isAuthEnabled()) {
+    await authStore.signOut();
+  }
 
   if (adminPasswordInput instanceof HTMLInputElement) {
     adminPasswordInput.type = "password";
@@ -653,29 +833,63 @@ function handleTogglePasswordVisibility() {
   togglePasswordBtn.classList.toggle("is-active", isHidden);
 }
 
-function bootstrapAdminAccess() {
+async function bootstrapAdminAccess() {
   setAuthState(false);
 
   if (adminGateForm instanceof HTMLFormElement) {
-    adminGateForm.addEventListener("submit", handleGateSubmit);
+    adminGateForm.addEventListener("submit", (event) => {
+      void handleGateSubmit(event);
+    });
   }
 
   if (logoutBtn instanceof HTMLButtonElement) {
-    logoutBtn.addEventListener("click", handleLogout);
+    logoutBtn.addEventListener("click", () => {
+      void handleLogout();
+    });
   }
 
   if (togglePasswordBtn instanceof HTMLButtonElement) {
     togglePasswordBtn.addEventListener("click", handleTogglePasswordVisibility);
   }
 
+  if (authStore && typeof authStore.subscribe === "function") {
+    authStore.subscribe((eventType) => {
+      if (eventType !== "auth:changed") {
+        return;
+      }
+
+      const loggedIn = Boolean(authStore.isAuthenticated?.());
+      if (!loggedIn && hasAdminSession()) {
+        window.sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        setAuthState(false);
+        setNotice("", "");
+        setGateMessage("Session expired. Sign in again.");
+      }
+    });
+  }
+
+  if (!isAuthEnabled()) {
+    setGateMessage("Configure Supabase auth to unlock the admin panel.");
+    return;
+  }
+
   if (hasAdminSession()) {
+    const adminAccess = await validateAdminUser();
+    if (!adminAccess.ok) {
+      window.sessionStorage.removeItem(ADMIN_SESSION_KEY);
+      setAuthState(false);
+      setGateMessage(adminAccess.error || "Admin login required.");
+      await authStore.signOut();
+      return;
+    }
+
     setAuthState(true);
     setGateMessage("");
     initAdminPanel();
     return;
   }
 
-  setGateMessage("Enter admin credentials to continue.");
+  setGateMessage("Enter admin email and password to continue.");
 }
 
-bootstrapAdminAccess();
+void bootstrapAdminAccess();
